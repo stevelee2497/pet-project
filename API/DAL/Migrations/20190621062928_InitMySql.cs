@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitMySql : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,8 @@ namespace DAL.Migrations
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     PasswordSalt = table.Column<byte[]>(nullable: false),
-                    PasswordHash = table.Column<byte[]>(nullable: false)
+                    PasswordHash = table.Column<byte[]>(nullable: false),
+                    AllowTokensSince = table.Column<DateTimeOffset>(nullable: true)
                 },
                 constraints: table =>
                 {
