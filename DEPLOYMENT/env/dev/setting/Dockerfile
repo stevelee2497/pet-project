@@ -1,6 +1,7 @@
+# this docker file will be built in "DEPLOYMENT/env/[env]/build_output/api"
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
 
-COPY ./build_output/api /app
+COPY . /app
 
 WORKDIR /app
 

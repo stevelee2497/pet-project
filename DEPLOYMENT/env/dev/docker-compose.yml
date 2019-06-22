@@ -4,13 +4,13 @@ services:
   giveandtake-api-dev:
     restart: always
     image: giveandtake-api-dev
-    build: 
-      context: output/api
+    build:
+      context: build_output/api
       dockerfile: Dockerfile
-  
+
     container_name: giveandtake-api-dev
     volumes:
-      - "./output/api/app:/app"
+      - "./build_output/api:/app"
     labels:
       - traefik.backend=giveandtake_api_dev
       - traefik.frontend.rule=Host:api.dev.chovanhan.asia
@@ -24,4 +24,4 @@ services:
 networks:
   proxy:
     external:
-      name: traefik_proxy 
+      name: traefik_proxy

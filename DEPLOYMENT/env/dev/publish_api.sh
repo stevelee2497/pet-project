@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 DEPLOY_ENVIRONMENT=dev
-DEPLOY_API_BUILD=Release
 CURRENT_PATH=$(pwd)
 TARGET_PATH="../../../API/API"
 OUTPUT_PATH="${CURRENT_PATH}/build_output/api"
-REMOTE_PATH=/home/ubuntu/services/projects/giveandtake/Trunk/deployment/deployment/env/${DEPLOY_ENVIRONMENT}/output/api
+REMOTE_PATH						=/home/ubuntu/services/projects/giveandtake/Trunk/deployment/deployment/env/${DEPLOY_ENVIRONMENT}/output/api
 DEPLOYMENT_REMOTE_PATH=/home/ubuntu/services/projects/giveandtake/Trunk/deployment/deployment/env/${DEPLOY_ENVIRONMENT}
 REMOTE_ID=ubuntu@103.101.76.127
 
@@ -17,16 +16,16 @@ else
 	exit -1
 fi
 
-echo "CLEANING ..."
+echo "CLEANING BUILD FOLDER ..."
 rm -rf "${OUTPUT_PATH}"
-
 mkdir -p "${OUTPUT_PATH}"
 
 echo "BUILDING API PACKAGE ..."
 dotnet publish API.csproj -o "${OUTPUT_PATH}"
 
 echo "REPLACING CONFIG FOR: ${DEPLOY_ENVIRONMENT}"
-cp -f "${CURRENT_PATH}/setting/appsettings.json" "${OUTPUT_PATH}"
+cd "${CURRENT_PATH}/setting"
+cp -f * "${OUTPUT_PATH}"
 
 cd "${CURRENT_PATH}"
 
