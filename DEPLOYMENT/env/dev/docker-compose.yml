@@ -11,17 +11,5 @@ services:
     container_name: giveandtake-api-dev
     volumes:
       - "./build_output/api:/app"
-    labels:
-      - traefik.backend=giveandtake_api_dev
-      - traefik.frontend.rule=Host:api.dev.chovanhan.asia
-      - traefik.docker.network=traefik_proxy
-      - traefik.port=80
     external_links:
       - mysql_shared_instance:mysql_local
-    networks:
-      - proxy
-
-networks:
-  proxy:
-    external:
-      name: traefik_proxy
