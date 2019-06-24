@@ -13,12 +13,12 @@ services:
       ]
     container_name: mysql_shared_instance
     environment:
-      - MYSQL_ROOT_PASSWORD=sioux@asia#api
+      - MYSQL_ROOT_PASSWORD=sioux@asia
       - MYSQL_ROOT_HOST=%
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=sioux@asia#api
+      - MYSQL_USER=sioux
+      - MYSQL_PASSWORD=sioux@asia
       - TZ=Asia/Ho_Chi_Minh
     ports:
       - "3306:3306"
     volumes:
-      - "/etc/data:/var/lib/mysql"
+      - "./data/:/var/lib/mysql"

@@ -1,14 +1,12 @@
-version: "2"
+version: "3"
 
 services:
-  giveandtake-api-dev:
-    restart: always
-    image: giveandtake-api-dev
-    build:
-      context: build_output/api
-      dockerfile: Dockerfile
-
-    container_name: giveandtake-api-dev
+  base-api:
+    image: base-api
+    build: .
+    container_name: base-api
+    ports:
+      - "8000:80"
     volumes:
       - "./build_output/api:/app"
     external_links:

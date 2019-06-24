@@ -29,6 +29,8 @@ cp -f * "${OUTPUT_PATH}"
 
 cd "${CURRENT_PATH}"
 
+docker-compose up -d --build --force-recreate
+
 # docker build -t base-api .
 
 # docker run --rm --name base-api -p 8000:80 base-api:latest
