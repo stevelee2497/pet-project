@@ -11,3 +11,10 @@ services:
       - "./build_output:/app"
     external_links:
       - mysql_shared_instance:mysql_local
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: base_network
