@@ -8,7 +8,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - "./build_output:/app"
+      - "./volume:/app"
     external_links:
       - mysql_shared_instance:mysql_local
     networks:

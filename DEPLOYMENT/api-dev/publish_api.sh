@@ -25,18 +25,11 @@ echo "REPLACING CONFIG FOR: ${DEPLOY_ENVIRONMENT}"
 cd "${CURRENT_PATH}/setting"
 cp -f * "${BUILD_OUTPUT_PATH}"
 
-cd "${CURRENT_PATH}"
-
-# docker-compose up -d --build --force-recreate
-
-# docker build -t base-api .
-
-# docker run --rm --name base-api -p 8000:80 base-api:latest
-
 read -r -p "Sending build to server and restart service now? [y/N] " response
 case "$response" in
 [yY][eE][sS] | [yY])
 	echo "SENDING PACKAGE ..."
+	cd "${CURRENT_PATH}"
 	scp -C -i ./key/mykey -P 22 -r volume ${REMOTE_ID}:${REMOTE_DEPLOY_PATH}
 	echo "RESTART DOCKER ..."
 	export REMOTE_DOCKER_COMMAND="cd ${REMOTE_DEPLOY_PATH};sudo docker-compose up -d --force-recreate ${DEPLOY_ENVIRONMENT}"
