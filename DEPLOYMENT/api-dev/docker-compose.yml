@@ -1,13 +1,13 @@
 version: "3"
 
 services:
-  base-api:
-    image: base-api
+  api-dev:
+    image: api-dev
     build: .
-    container_name: base-api
+    container_name: api-dev
     ports:
       - "8000:80"
     volumes:
-      - "~/volumes/dev/api:/app"
+      - "./build_output:/app"
     external_links:
       - mysql_shared_instance:mysql_local
