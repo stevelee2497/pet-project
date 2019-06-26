@@ -32,8 +32,7 @@ case "$response" in
 	cd "${CURRENT_PATH}"
 	scp -C -i ./key/mykey -P 22 -r volume ${REMOTE_ID}:${REMOTE_DEPLOY_PATH}
 	echo "RESTART DOCKER ..."
-	export REMOTE_DOCKER_COMMAND="cd ${REMOTE_DEPLOY_PATH};sudo docker-compose up -d --force-recreate ${DEPLOY_ENVIRONMENT}"
-	ssh -i ./key/mykey -p 22 ${REMOTE_ID} ${REMOTE_DOCKER_COMMAND}
+	ssh -i ./key/mykey -p 22 quoctran@192.168.164.134 "docker-compose -f ${REMOTE_DEPLOY_PATH}/docker-compose.yml up -d --force-recreate api-dev;"
 	;;
 *)
 	echo "not sending data, service not restarted. Exiting ..."
