@@ -20,5 +20,15 @@ namespace DAL.Models
 		public DateTimeOffset? AllowTokensSince { get; set; }
 
 		public virtual ICollection<UserRole> UserRoles { get; set; }
+
+		public virtual ICollection<Book> Books { get; set; }
+
+		public virtual ICollection<Rate> Rates { get; set; }
+
+		public virtual ICollection<Comment> Comments { get; set; }
+
+		public virtual ICollection<BookSelf> BookSelves { get; set; }
+		
+		public virtual ICollection<Subscribe> Subscribes { get; set; }
 	}
 }

@@ -3,14 +3,16 @@ using System;
 using DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190626065758_AddBookOnline")]
+    partial class AddBookOnline
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,32 +141,6 @@ namespace DAL.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("Chapter");
-                });
-
-            modelBuilder.Entity("DAL.Models.Comment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("BookId");
-
-                    b.Property<DateTimeOffset>("CreatedTime");
-
-                    b.Property<int>("EntityStatus");
-
-                    b.Property<string>("Message");
-
-                    b.Property<DateTimeOffset>("UpdatedTime");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("DAL.Models.Rate", b =>
@@ -325,19 +301,6 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Models.Book", "Book")
                         .WithMany("Chapters")
                         .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.Models.Comment", b =>
-                {
-                    b.HasOne("DAL.Models.Book", "Book")
-                        .WithMany("Comments")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.User", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
