@@ -4,7 +4,6 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint *.js **/*.js"
   },
@@ -20,10 +19,12 @@
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
+    "react-native-gesture-handler": "^1.3.0",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "redux-saga": "^1.0.3"
   },
   "devDependencies": {
