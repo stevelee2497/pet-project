@@ -1,25 +1,25 @@
 import {
   createBottomTabNavigator, createStackNavigator, createAppContainer, createSwitchNavigator
 } from 'react-navigation';
-import HomeScreen from './HomeScreen';
-import BookSelfScreen from './BookSelfScreen';
+import BookShelfScreen from './BookShelfScreen';
 import ChartScreen from './ChartScreen';
 import ProfileScreen from './ProfileScreen';
 import AudioScreen from './AudioScreen';
 import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import colors from '../helpers/colorHelper';
+import LibraryScreen from './LibraryScreen';
 
 const BottomTabs = createBottomTabNavigator(
   {
-    HomeScreen,
-    BookSelfScreen,
+    LibraryScreen,
+    BookShelfScreen,
     ChartScreen,
     ProfileScreen,
     AudioScreen,
   },
   {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'LibraryScreen',
     navigationOptions: {
       header: null,
     },

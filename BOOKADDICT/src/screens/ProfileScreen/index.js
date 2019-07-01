@@ -8,12 +8,9 @@ class ProfileScreen extends Component {
     title: 'Hồ sơ',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={images.chart}
+        source={images.circleUser}
         style={{
-          width: 18,
-          height: 18,
-          tintColor,
-          marginTop: 6,
+          width: 18, height: 18, tintColor, marginTop: 6,
         }}
         resizeMode="stretch"
       />

@@ -8,7 +8,7 @@ class AudioScreen extends Component {
     title: 'Audio',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={images.chart}
+        source={images.audio}
         style={{
           width: 18,
           height: 18,

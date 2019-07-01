@@ -19,5 +19,7 @@ const images = {
   bookSelf: require('../images/book-self.png'),
   music: require('../images/music.png'),
   player: require('../images/player.png'),
+  audio: require('../images/audio.png'),
+  bookShelf: require('../images/bookshelf.png')
 };
 export default images;

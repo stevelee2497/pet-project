@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
+import Dots from 'react-carousel-dots';
 import images from '../../helpers/imageHelper';
 
-class HomeScreen extends Component {
+class LibraryScreen extends Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Thư viện',
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={images.home}
@@ -24,6 +25,7 @@ class HomeScreen extends Component {
     return (
       <View>
         <Text> HomeScreen </Text>
+        <Dots length={10} active={0} />
       </View>
     );
   }
@@ -36,4 +38,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeScreen);
+)(LibraryScreen);

@@ -3,12 +3,12 @@ import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import images from '../../helpers/imageHelper';
 
-class BookSelfScreen extends Component {
+class BookShelfScreen extends Component {
   static navigationOptions = {
-    title: 'Thư viện',
+    title: 'Tủ sách',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={images.bookSelf}
+        source={images.bookShelf}
         style={{
           width: 18,
           height: 18,
@@ -36,4 +36,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BookSelfScreen);
+)(BookShelfScreen);
