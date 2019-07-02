@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions
+} from 'react-native';
 import { connect } from 'react-redux';
-import Dots from 'react-carousel-dots';
+import Swiper from 'react-native-swiper';
 import images from '../../helpers/imageHelper';
+
+const { width, height } = Dimensions.get('window');
 
 class LibraryScreen extends Component {
   static navigationOptions = {
@@ -23,13 +31,45 @@ class LibraryScreen extends Component {
 
   render() {
     return (
-      <View>
-        <Text> HomeScreen </Text>
-        <Dots length={10} active={0} />
+      <View style={styles.container}>
+        <View style={styles.wrapper}>
+          <Swiper activeDotColor="white" paginationStyle={{ position: 'absolute', bottom: 10 }}>
+            {
+              Array.from({ length: 4 }).map((_, index) => (
+                <View key={index.toString()} style={styles.slide}>
+                  <Text style={styles.text}>{index}</Text>
+                </View>
+              ))
+            }
+          </Swiper>
+        </View>
+
+        <Text> feefef</Text>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  wrapper: {
+    width,
+    height: 200
+  },
+  slide: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB',
+    flex: 1
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
+  }
+});
 
 const mapStateToProps = state => ({});
 
