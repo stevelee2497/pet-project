@@ -4,15 +4,15 @@ import {
   Text,
   Image,
   StyleSheet,
-  Dimensions,
-  TouchableOpacity
+  Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
 import images, { randomImage } from '../../helpers/imageHelper';
-import colors from '../../helpers/colorHelper';
+import LibrarySwitchButtons from '../../components/LibrarySwitchButtons';
+import { LIBRARY_STATE } from '../../AppConstants';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class LibraryScreen extends Component {
   static navigationOptions = {
@@ -31,56 +31,32 @@ class LibraryScreen extends Component {
     ),
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      libraryState: LIBRARY_STATE.BOOK
+    };
+  }
+
+  onChangeLibraryState = () => {
+    this.setState(oldState => ({ libraryState: oldState.libraryState === LIBRARY_STATE.BOOK ? LIBRARY_STATE.NOVEL : LIBRARY_STATE.BOOK }));
+  }
+
   render() {
     return (
       <View style={styles.container}>
-
-        <View style={{
-          backgroundColor: 'white', flexDirection: 'row', padding: 5, justifyContent: 'center', alignItems: 'center'
-        }}
-        >
-          <TouchableOpacity style={{
-            backgroundColor: colors.pink,
-            padding: 5,
-            width: 80,
-            height: 30,
-            alignItems: 'center',
-            borderTopLeftRadius: 5,
-            borderBottomLeftRadius: 5,
-            justifyContent: 'center'
-          }}
-          >
-            <Text style={{ color: 'white', fontWeight: '400' }}>SÁCH</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{
-            backgroundColor: 'white',
-            padding: 5,
-            width: 80,
-            height: 30,
-            alignItems: 'center',
-            borderTopRightRadius: 5,
-            borderBottomRightRadius: 5,
-            borderWidth: 2,
-            borderColor: colors.pink,
-            justifyContent: 'center',
-            borderLeftWidth: 0
-          }}
-          >
-            <Text style={{ color: 'black', fontWeight: '400' }}>TRUYỆN</Text>
-          </TouchableOpacity>
-        </View>
-
+        <LibrarySwitchButtons libraryState={this.state.libraryState} onChangeLibraryState={this.onChangeLibraryState} />
         <View style={{
           width,
-          height: 220,
+          height: 240,
           backgroundColor: 'white'
         }}
         >
           <Swiper activeDotColor="white" paginationStyle={{ position: 'absolute', bottom: 30 }}>
             {
               Array.from({ length: 4 }).map((_, index) => (
-                <Image key={index.toString()} source={randomImage(1000, 600)} style={{ width, height: 200 }} resizeMode="stretch" />
+                <Image key={index.toString()} source={randomImage(1000, 600)} style={{ width, height: 220 }} resizeMode="stretch" />
               ))
             }
           </Swiper>
@@ -101,7 +77,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {};
 
