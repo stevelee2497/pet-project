@@ -3,10 +3,7 @@ import { BaseImagePath } from '../AppConstants';
 
 export const parseUri = uri => ({ uri: `${BaseImagePath}/${uri}` });
 
-export const randomImageUrl = (width, height) => `https://source.unsplash.com/random/${width}x${height}?sig=${Faker.random.number({
-  min: 1,
-  max: 100000,
-})}`;
+export const randomImageUrl = (width, height) => `https://picsum.photos/id/${Faker.random.number({ min: 1, max: 100, })}/${width}/${height}`;
 
 export const randomImage = (width, height) => ({
   uri: randomImageUrl(width, height),
