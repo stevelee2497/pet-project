@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   Image,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
-import Swiper from 'react-native-swiper';
-import images, { randomImage } from '../../helpers/imageHelper';
-import LibrarySwitchButtons from '../../components/LibrarySwitchButtons';
+import images from '../../helpers/imageHelper';
 import { LIBRARY_STATE } from '../../AppConstants';
-
-const { width } = Dimensions.get('window');
+import LibrarySwitchButtons from '../../components/LibrarySwitchButtons';
+import BookSlide from '../../components/BookSlide';
+import HorizontalBookList from '../../components/HorizontalBookList';
 
 class LibraryScreen extends Component {
   static navigationOptions = {
@@ -33,7 +30,6 @@ class LibraryScreen extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       libraryState: LIBRARY_STATE.BOOK
     };
@@ -47,24 +43,8 @@ class LibraryScreen extends Component {
     return (
       <View style={styles.container}>
         <LibrarySwitchButtons libraryState={this.state.libraryState} onChangeLibraryState={this.onChangeLibraryState} />
-        <View style={{
-          width,
-          height: 240,
-          backgroundColor: 'white'
-        }}
-        >
-          <Swiper activeDotColor="white" paginationStyle={{ position: 'absolute', bottom: 30 }}>
-            {
-              Array.from({ length: 4 }).map((_, index) => (
-                <Image key={index.toString()} source={randomImage(1000, 600)} style={{ width, height: 220 }} resizeMode="stretch" />
-              ))
-            }
-          </Swiper>
-        </View>
-
-        <View style={{ marginTop: 20, backgroundColor: 'white' }}>
-          <Text>TRUYỆN MỚI CẬP NHẬT</Text>
-        </View>
+        <BookSlide />
+        <HorizontalBookList />
       </View>
     );
   }

@@ -17,6 +17,7 @@ const images = {
   music: require('../images/music.png'),
   player: require('../images/player.png'),
   audio: require('../images/audio.png'),
-  bookShelf: require('../images/bookshelf.png')
+  bookShelf: require('../images/bookshelf.png'),
+  bg: require('../images/bg.jpg')
 };
 export default images;

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {
   Text, View, TouchableOpacity, StyleSheet
 } from 'react-native';
-import colors from '../helpers/colorHelper';
-import { LIBRARY_STATE } from '../AppConstants';
+import colors from '../../helpers/colorHelper';
+import { LIBRARY_STATE } from '../../AppConstants';
 
 class LibrarySwitchButtons extends Component {
   onLeftButtonPressed = () => {
