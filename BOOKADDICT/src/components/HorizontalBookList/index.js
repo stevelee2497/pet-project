@@ -27,10 +27,11 @@ class HorizontalBookList extends Component {
 
   render() {
     const { books } = this.state;
+    const { title } = this.props;
 
     return (
       <View style={styles.container}>
-        <BookShelfTitle title="SÁCH MỚI" />
+        <BookShelfTitle title={title} />
         <FlatList
           horizontal
           data={books}
@@ -52,7 +53,8 @@ const mapDispatchToProps = {
 
 const styles = StyleSheet.create({
   listContainerStyle: {
-    marginLeft: 10
+    marginLeft: 10,
+    paddingRight: 10,
   },
   container: {
     marginTop: 20,

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import images from '../../helpers/imageHelper';
@@ -10,6 +11,7 @@ import { LIBRARY_STATE } from '../../AppConstants';
 import LibrarySwitchButtons from '../../components/LibrarySwitchButtons';
 import BookSlide from '../../components/BookSlide';
 import HorizontalBookList from '../../components/HorizontalBookList';
+import VerticalBookList from '../../components/VerticalBookList';
 
 class LibraryScreen extends Component {
   static navigationOptions = {
@@ -41,11 +43,14 @@ class LibraryScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <LibrarySwitchButtons libraryState={this.state.libraryState} onChangeLibraryState={this.onChangeLibraryState} />
         <BookSlide />
-        <HorizontalBookList />
-      </View>
+        <HorizontalBookList title="SÁCH MỚI" />
+        <HorizontalBookList title="ĐỌC NHIỀU" />
+        <VerticalBookList />
+        <View style={styles.footer} />
+      </ScrollView>
     );
   }
 }
@@ -54,6 +59,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'whitesmoke'
+  },
+  footer: {
+    height: 20
   }
 });
 

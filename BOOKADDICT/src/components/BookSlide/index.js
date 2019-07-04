@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Dimensions, Image, StyleSheet
+  View, Dimensions, Image, StyleSheet, TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
@@ -15,7 +15,9 @@ class BookSlide extends Component {
         <Swiper activeDotColor="white" paginationStyle={styles.paginationStyle} autoplay>
           {
             Array.from({ length: 4 }).map((_, index) => (
-              <Image key={index.toString()} source={randomImage(1000, 600)} style={styles.slide} resizeMode="stretch" />
+              <TouchableOpacity key={index.toString()}>
+                <Image source={randomImage(1000, 600)} style={styles.slide} resizeMode="stretch" />
+              </TouchableOpacity>
             ))
           }
         </Swiper>

@@ -5,7 +5,7 @@ import images from '../../helpers/imageHelper';
 
 class ChartScreen extends Component {
   static navigationOptions = {
-    title: 'Truyện Top',
+    title: 'Xếp hạng',
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={images.chart}
