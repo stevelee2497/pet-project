@@ -1,8 +1,11 @@
 const colors = {
   pink: '#E91E63',
   primaryDark: '#C2185B',
-  blue: 'dodgerblue',
-  accent: '#009688'
+  lightPrimary: '#F8BBD0',
+  accent: '#009688',
+  primaryText: '#212121',
+  secondaryText: '#757575',
+  divider: '#BDBDBD'
 };
 
 export default colors;

@@ -20,9 +20,11 @@ export default class BookItem extends Component {
           <TouchableOpacity>
             <Text style={styles.title}>{book.title}</Text>
           </TouchableOpacity>
-          <Text>Tác giả: {book.author}</Text>
-          <Text>Tình trạng: {book.status}</Text>
-          <Text>Số chương: {book.chapterCount}</Text>
+          <View>
+            <Text style={styles.description}>Tác giả: {book.author}</Text>
+            <Text style={styles.description}>Tình trạng: {book.status}</Text>
+            <Text style={styles.description}>Số chương: {book.chapterCount}</Text>
+          </View>
         </View>
       </View>
     );
@@ -32,11 +34,13 @@ export default class BookItem extends Component {
 const styles = StyleSheet.create({
   title: {
     color: colors.accent,
-    paddingBottom: 5
+    paddingBottom: 5,
+    fontSize: 16
   },
   rightViews: {
     flex: 1,
-    marginLeft: 10
+    marginLeft: 10,
+    justifyContent: 'space-between'
   },
   image: {
     width: 80,
@@ -44,11 +48,19 @@ const styles = StyleSheet.create({
   },
   imageTouchView: {
     elevation: 10,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    shadowOpacity: 0.4,
   },
   container: {
     flexDirection: 'row',
     padding: 10,
     paddingLeft: 20
   },
+  description: {
+    paddingTop: 2,
+    paddingBottom: 2
+  }
 });
