@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import {
-  View, StyleSheet
+  View,
+  StyleSheet,
 } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import AppContainer from './AppContainer';
-import CustomStatusBar from '../../components/StatusBar';
+import StatusBar from '../../components/StatusBar';
+
+SafeAreaView.setStatusBarHeight(0);
 
 export default class RootScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <CustomStatusBar />
+        <StatusBar />
         <AppContainer />
       </View>
     );

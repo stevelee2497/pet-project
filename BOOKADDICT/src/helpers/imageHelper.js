@@ -1,7 +1,4 @@
 import Faker from 'faker';
-import { BaseImagePath } from '../AppConstants';
-
-export const parseUri = uri => ({ uri: `${BaseImagePath}/${uri}` });
 
 export const randomImageUrl = (width, height) => `https://picsum.photos/id/${Faker.random.number({ min: 1, max: 100, })}/${width}/${height}`;
 
@@ -18,6 +15,8 @@ const images = {
   player: require('../images/player.png'),
   audio: require('../images/audio.png'),
   bookShelf: require('../images/bookshelf.png'),
-  bg: require('../images/bg.jpg')
+  bg: require('../images/bg.jpg'),
+  search: require('../images/search.png'),
+  refresh: require('../images/refresh.png')
 };
 export default images;

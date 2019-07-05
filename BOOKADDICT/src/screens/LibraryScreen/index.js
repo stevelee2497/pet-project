@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Image,
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import { LIBRARY_STATE } from '../../AppConstants';
@@ -10,17 +12,32 @@ import LibrarySwitchButtons from '../../components/LibrarySwitchButtons';
 import BookSlide from '../../components/BookSlide';
 import HorizontalBookList from '../../components/HorizontalBookList';
 import VerticalBookList from '../../components/VerticalBookList';
+import images from '../../helpers/imageHelper';
+
 
 class LibraryScreen extends Component {
-  static navigationOptions = {
-    title: 'THƯ VIỆN'
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Thư viện',
+    headerRight: (
+      <TouchableOpacity onPress={() => { navigation.navigate('BookDetailScreen'); }}>
+        <Image style={{ width: 24, height: 24, marginRight: 10 }} source={images.search} resizeMode="stretch" />
+      </TouchableOpacity>
+    ),
+    headerLeft: (
+      <TouchableOpacity>
+        <Image style={{ width: 20, height: 20, marginLeft: 10 }} source={images.refresh} resizeMode="stretch" />
+      </TouchableOpacity>
+    ),
+  });
 
   constructor(props) {
     super(props);
     this.state = {
       libraryState: LIBRARY_STATE.BOOK
     };
+  }
+
+  componentDidMount() {
   }
 
   onChangeLibraryState = () => {
