@@ -1,23 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import images from '../../helpers/imageHelper';
 
 class ChartScreen extends Component {
   static navigationOptions = {
-    title: 'Xếp hạng',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={images.chart}
-        style={{
-          width: 18,
-          height: 18,
-          tintColor,
-          marginTop: 6,
-        }}
-        resizeMode="stretch"
-      />
-    ),
+    title: 'Xếp hạng'
   };
 
   render() {
@@ -29,7 +16,7 @@ class ChartScreen extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {};
 

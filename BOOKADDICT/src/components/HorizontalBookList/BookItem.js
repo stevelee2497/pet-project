@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import {
   Text, TouchableOpacity, Image, StyleSheet, View
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-export default class BookItem extends Component {
+class BookItem extends Component {
+  viewBookDetail = () => {
+    const { book, navigation } = this.props;
+    navigation.navigate('BookDetailScreen');
+  }
+
   render() {
-    const { book } = this.props;
+    const { book, navigation } = this.props;
     return (
       <TouchableOpacity
         style={styles.container}
+        onPress={this.viewBookDetail}
       >
         <View style={styles.imageContainer}>
           <Image
@@ -49,3 +56,5 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5
   }
 });
+
+export default withNavigation(BookItem);

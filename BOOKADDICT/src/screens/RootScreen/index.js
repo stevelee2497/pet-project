@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View, StyleSheet
 } from 'react-native';
-import AppContainer from '../AppContainer';
+import AppContainer from './AppContainer';
 import CustomStatusBar from '../../components/StatusBar';
 
 export default class RootScreen extends Component {

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import {
   View,
-  Image,
   StyleSheet,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
-import images from '../../helpers/imageHelper';
 import { LIBRARY_STATE } from '../../AppConstants';
 import LibrarySwitchButtons from '../../components/LibrarySwitchButtons';
 import BookSlide from '../../components/BookSlide';
@@ -15,19 +13,7 @@ import VerticalBookList from '../../components/VerticalBookList';
 
 class LibraryScreen extends Component {
   static navigationOptions = {
-    title: 'Thư viện',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={images.home}
-        style={{
-          width: 18,
-          height: 18,
-          tintColor,
-          marginTop: 6,
-        }}
-        resizeMode="stretch"
-      />
-    ),
+    title: 'THƯ VIỆN'
   };
 
   constructor(props) {

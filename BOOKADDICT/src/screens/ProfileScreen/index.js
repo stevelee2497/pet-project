@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import images from '../../helpers/imageHelper';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
-    title: 'Hồ sơ',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={images.circleUser}
-        style={{
-          width: 18, height: 18, tintColor, marginTop: 6,
-        }}
-        resizeMode="stretch"
-      />
-    ),
+    title: 'Hồ sơ'
   };
 
   render() {
@@ -26,7 +16,7 @@ class ProfileScreen extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {};
 
