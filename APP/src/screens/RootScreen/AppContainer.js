@@ -13,7 +13,7 @@ const AppStacks = createStackNavigator(
     BookDetailScreen
   },
   {
-    initialRouteName: 'BottomTabBar',
+    initialRouteName: 'BookDetailScreen',
   }
 );
 

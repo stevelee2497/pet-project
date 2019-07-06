@@ -17,6 +17,12 @@ const images = {
   bookShelf: require('../images/bookshelf.png'),
   bg: require('../images/bg.jpg'),
   search: require('../images/search.png'),
-  refresh: require('../images/refresh.png')
+  refresh: require('../images/refresh.png'),
+  book: require('../images/book.jpg'),
+  back: require('../images/back.png'),
+  download: require('../images/download.png'),
+  bookmark: require('../images/bookmark.png'),
+  listening: require('../images/listening.png'),
+  star: require('../images/star.png')
 };
 export default images;
