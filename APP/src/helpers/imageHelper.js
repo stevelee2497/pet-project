@@ -23,6 +23,7 @@ const images = {
   download: require('../images/download.png'),
   bookmark: require('../images/bookmark.png'),
   listening: require('../images/listening.png'),
-  star: require('../images/star.png')
+  star: require('../images/star.png'),
+  emptyStar: require('../images/star-empty.png')
 };
 export default images;

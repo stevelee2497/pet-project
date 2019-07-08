@@ -5,7 +5,8 @@ const colors = {
   accent: '#009688',
   primaryText: '#212121',
   secondaryText: '#757575',
-  divider: '#BDBDBD'
+  divider: '#BDBDBD',
+  star: '#F1C40F'
 };
 
 export default colors;

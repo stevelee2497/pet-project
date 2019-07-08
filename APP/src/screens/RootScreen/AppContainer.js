@@ -1,19 +1,20 @@
 import {
-  createStackNavigator, createAppContainer, createSwitchNavigator
+  createStackNavigator,
+  createAppContainer,
+  createSwitchNavigator
 } from 'react-navigation';
 import SignInScreen from '../SignInScreen';
 import SignUpScreen from '../SignUpScreen';
-import { BookDetailScreen } from '../BookDetailScreen';
 import BottomTabBar from './BottomTabBar';
-
+import BookDetailTabNavigator from './BookDetailTabNavigator';
 
 const AppStacks = createStackNavigator(
   {
     BottomTabBar,
-    BookDetailScreen
+    BookDetailTabNavigator
   },
   {
-    initialRouteName: 'BookDetailScreen',
+    initialRouteName: 'BottomTabBar',
   }
 );
 
