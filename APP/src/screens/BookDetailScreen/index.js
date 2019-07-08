@@ -1,35 +1,28 @@
-import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet
-} from 'react-native';
-import { connect } from 'react-redux';
+import { createMaterialTopTabNavigator } from 'react-navigation';
+import React from 'react';
+import OverviewTab from '../../components/OverviewTab';
+import ReviewTab from '../../components/ReviewTab';
+import CommentTab from '../../components/CommentTab';
 import BookDetailHeader from '../../components/BookDetailHeader';
 
-export class BookDetailScreen extends Component {
-  static navigationOptions ={
-    header: null
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <BookDetailHeader />
-      </View>
-    );
+const BookDetailScreen = createMaterialTopTabNavigator({
+  OverviewTab,
+  ReviewTab,
+  CommentTab
+}, {
+  initialRouteName: 'OverviewTab',
+  navigationOptions: ({ navigation }) => ({
+    header: (<BookDetailHeader back={() => { navigation.goBack(); }} />),
+  }),
+  tabBarOptions: {
+    labelStyle: {
+      fontSize: 12,
+      color: 'black'
+    },
+    style: {
+      backgroundColor: 'white',
+    },
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
 });
 
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = {
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BookDetailScreen);
+export default BookDetailScreen;

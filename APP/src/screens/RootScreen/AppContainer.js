@@ -6,12 +6,12 @@ import {
 import SignInScreen from '../SignInScreen';
 import SignUpScreen from '../SignUpScreen';
 import BottomTabBar from './BottomTabBar';
-import BookDetailTabNavigator from './BookDetailTabNavigator';
+import BookDetailScreen from '../BookDetailScreen';
 
 const AppStacks = createStackNavigator(
   {
     BottomTabBar,
-    BookDetailTabNavigator
+    BookDetailScreen
   },
   {
     initialRouteName: 'BottomTabBar',

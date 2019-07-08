@@ -7,7 +7,7 @@ import { withNavigation } from 'react-navigation';
 class BookItem extends Component {
   viewBookDetail = () => {
     const { book, navigation } = this.props;
-    navigation.navigate('BookDetailTabNavigator');
+    navigation.navigate('BookDetailScreen');
   }
 
   render() {
