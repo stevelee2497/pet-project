@@ -7,14 +7,19 @@ import SignInScreen from '../SignInScreen';
 import SignUpScreen from '../SignUpScreen';
 import BottomTabBar from './BottomTabBar';
 import BookDetailScreen from '../BookDetailScreen';
+import CatalogScreen from '../CatalogScreen';
+import ChapterDetailScreen from '../ChapterDetailScreen';
 
 const AppStacks = createStackNavigator(
   {
     BottomTabBar,
-    BookDetailScreen
+    BookDetailScreen,
+    CatalogScreen,
+    ChapterDetailScreen
   },
   {
-    initialRouteName: 'BottomTabBar',
+    initialRouteName: 'ChapterDetailScreen',
+    headerMode: 'screen'
   }
 );
 

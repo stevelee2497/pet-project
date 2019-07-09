@@ -7,17 +7,21 @@ import colors from '../../helpers/colorHelper';
 
 class BookShelfTitle extends Component {
   render() {
-    const { title, onViewMore } = this.props;
+    const {
+      title, onViewMore, style, titleOnly
+    } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={{ ...styles.container, ...style }}>
         <View style={styles.leftItems}>
           <View style={styles.line} />
           <Text style={styles.title}>{title}</Text>
         </View>
 
+        {!titleOnly && (
         <TouchableOpacity style={styles.viewMoreTouch} onPress={onViewMore}>
           <Text style={styles.viewMoreText}>Xem thêm  »</Text>
         </TouchableOpacity>
+        )}
       </View>
     );
   }
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10,
+    paddingTop: 10,
     marginBottom: 5
   },
 });

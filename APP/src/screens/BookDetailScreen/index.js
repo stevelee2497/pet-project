@@ -16,12 +16,16 @@ const BookDetailScreen = createMaterialTopTabNavigator({
   }),
   tabBarOptions: {
     labelStyle: {
-      fontSize: 12,
-      color: 'black'
+      fontSize: 14,
+      color: 'black',
     },
+    upperCaseLabel: false,
     style: {
       backgroundColor: 'white',
     },
+    tabStyle: {
+      alignItems: 'flex-start',
+    }
   }
 });
 

@@ -3,6 +3,12 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 class CommentTab extends Component {
+  static navigationOptions = {
+    tabBarLabel: ({ focused }) => (
+      <Text style={{ fontWeight: focused ? 'bold' : '100' }}>Thảo luận</Text>
+    )
+  }
+
   render() {
     return (
       <View>

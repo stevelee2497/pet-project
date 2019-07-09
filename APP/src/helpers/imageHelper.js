@@ -24,6 +24,7 @@ const images = {
   bookmark: require('../images/bookmark.png'),
   listening: require('../images/listening.png'),
   star: require('../images/star.png'),
-  emptyStar: require('../images/star-empty.png')
+  emptyStar: require('../images/star-empty.png'),
+  sort: require('../images/sort.png')
 };
 export default images;

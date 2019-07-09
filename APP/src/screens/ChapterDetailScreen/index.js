@@ -2,17 +2,22 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-class ReviewTab extends Component {
+class ChapterDetailScreen extends Component {
   static navigationOptions = {
-    tabBarLabel: ({ focused }) => (
-      <Text style={{ fontWeight: focused ? 'bold' : '100' }}>Đánh giá</Text>
-    )
+    header: null
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      hideHeader: true
+    };
   }
 
   render() {
     return (
       <View>
-        <Text> ReviewTab </Text>
+        <Text>ChapterDetailScreen</Text>
       </View>
     );
   }
@@ -26,4 +31,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewTab);
+export default connect(mapStateToProps, mapDispatchToProps)(ChapterDetailScreen);

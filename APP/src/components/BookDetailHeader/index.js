@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
   container: {
     width,
     height: 250,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginBottom: 15,
   },
   headerBackground: {
     width,
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   bookImageContainer: {
     width: 135,
     height: 200,
-    marginLeft: 10,
+    marginLeft: 15,
     shadowColor: 'pink',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 20,
@@ -138,9 +139,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 2
   },
   roundButton: {
     width: '60%',
@@ -152,7 +155,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.pink,
     borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 2
   },
   readButton: {
     paddingLeft: 15,
