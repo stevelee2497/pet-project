@@ -25,6 +25,8 @@ const images = {
   listening: require('../images/listening.png'),
   star: require('../images/star.png'),
   emptyStar: require('../images/star-empty.png'),
-  sort: require('../images/sort.png')
+  sort: require('../images/sort.png'),
+  setting: require('../images/setting.png'),
+  catalog: require('../images/catalog.png')
 };
 export default images;
