@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import {
   Text,
   StyleSheet,
@@ -6,12 +6,17 @@ import {
   Dimensions,
   View,
   Animated,
-  Platform
+  Platform,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import faker from 'faker';
 import { Header } from 'react-navigation';
 import ChapterDetailHeader from '../../components/ChapterDetailHeader';
+import images from '../../helpers/imageHelper';
+import colors from '../../helpers/colorHelper';
+import star from '../../images/star.png';
 
 const { width } = Dimensions.get('window');
 
@@ -29,12 +34,16 @@ class ChapterDetailScreen extends Component {
         name: `Chương ${faker.random.number(100, 1000)}: ${faker.random.words(6)}`,
         content: `\n\t${Array.from({ length: 22 }).map(() => faker.random.words(50)).join('.\n\n\t')}`
       },
-      scrollY: new Animated.Value(
-        // iOS has negative initial scroll value because content inset...
-        Platform.OS === 'ios' ? -Header.HEIGHT : 0,
-      ),
+      scrollY: new Animated.Value(0),
     };
+    this.scrollView = createRef();
   }
+
+  scrollToTop = () => {
+    this.scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
+  }
+
+  showHeader = () => {}
 
   render() {
     const { chapter } = this.state;
@@ -45,23 +54,36 @@ class ChapterDetailScreen extends Component {
       extrapolate: 'clamp',
     });
 
+    const animatingScroll = Animated.event(
+      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
+    );
+
+    const upOpacity = this.state.scrollY.interpolate({
+      inputRange: [0, Header.HEIGHT * 2],
+      outputRange: [0, 0.4],
+      extrapolate: 'clamp',
+    });
+
     return (
       <View style={styles.container}>
         <ScrollView
-          style={{
-            flex: 1, padding: 10, paddingTop: 10 + Header.HEIGHT, paddingBottom: 20
-          }}
+          style={styles.scroll}
           scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
-          )}
+          onScroll={animatingScroll}
+          ref={this.scrollView}
         >
           <Text style={styles.title}>{chapter.name}</Text>
-          <Text style={styles.content}>{chapter.content}</Text>
+          <Text style={styles.content} onPress={this.showHeader}>{chapter.content}</Text>
+          <Text style={styles.title}>-----Kết chương-----</Text>
+          <View style={{ height: 100 }} />
         </ScrollView>
         <ChapterDetailHeader height={headerHeight} title={chapter.name} />
-        {/* <Animated.View style={[styles.header, { height: headerHeight }]}>
-        </Animated.View> */}
+        <Animated.View style={{ opacity: upOpacity }}>
+          <TouchableOpacity style={styles.upContainer} onPress={this.scrollToTop}>
+            <Image source={images.up} style={styles.up} resizeMode="stretch" />
+          </TouchableOpacity>
+        </Animated.View>
+
       </View>
     );
   }
@@ -72,6 +94,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'whitesmoke'
   },
+  scroll: {
+    flex: 1,
+    padding: 10,
+    paddingTop: 10 + Header.HEIGHT
+  },
   title: {
     lineHeight: 25,
     marginTop: 10,
@@ -79,20 +106,35 @@ const styles = StyleSheet.create({
   },
   content: {
     lineHeight: 25,
-    flexWrap: 'wrap',
   },
   header: {
     width,
     position: 'absolute',
     top: 0,
     backgroundColor: 'white',
-    shadowColor: 'rgba(0,0,0, .4)',
+    shadowColor: 'rgba(0, 0, 0, 0.4)',
     shadowOffset: { height: 1, width: 1 },
     shadowOpacity: 1,
     shadowRadius: 1,
     elevation: 2,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  upContainer: {
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: colors.primaryText,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  up: {
+    width: '40%',
+    height: '40%',
+    tintColor: 'white'
   }
 });
 

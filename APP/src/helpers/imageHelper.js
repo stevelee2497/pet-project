@@ -27,6 +27,7 @@ const images = {
   emptyStar: require('../images/star-empty.png'),
   sort: require('../images/sort.png'),
   setting: require('../images/setting.png'),
-  catalog: require('../images/catalog.png')
+  catalog: require('../images/catalog.png'),
+  up: require('../images/up.png')
 };
 export default images;
