@@ -43,8 +43,6 @@ class ChapterDetailScreen extends Component {
     this.scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
   }
 
-  showHeader = () => {}
-
   render() {
     const { chapter } = this.state;
 
@@ -73,7 +71,7 @@ class ChapterDetailScreen extends Component {
           ref={this.scrollView}
         >
           <Text style={styles.title}>{chapter.name}</Text>
-          <Text style={styles.content} onPress={this.showHeader}>{chapter.content}</Text>
+          <Text style={styles.content}>{chapter.content}</Text>
           <Text style={styles.title}>-----Kết chương-----</Text>
           <View style={{ height: 100 }} />
         </ScrollView>
