@@ -6,9 +6,9 @@ import {
 import SignInScreen from '../SignInScreen';
 import SignUpScreen from '../SignUpScreen';
 import BottomTabBar from './BottomTabBar';
-import BookDetailScreen from '../BookDetailScreen';
 import CatalogScreen from '../CatalogScreen';
 import ChapterDetailScreen from '../ChapterDetailScreen';
+import BookDetailScreen from '../BookDetailScreen';
 
 const AppStacks = createStackNavigator(
   {
@@ -18,7 +18,7 @@ const AppStacks = createStackNavigator(
     ChapterDetailScreen
   },
   {
-    initialRouteName: 'ChapterDetailScreen',
+    initialRouteName: 'BookDetailScreen',
     headerMode: 'screen'
   }
 );

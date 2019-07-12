@@ -6,7 +6,6 @@ import {
   Dimensions,
   View,
   Animated,
-  Platform,
   TouchableOpacity,
   Image
 } from 'react-native';
@@ -16,7 +15,6 @@ import { Header } from 'react-navigation';
 import ChapterDetailHeader from '../../components/ChapterDetailHeader';
 import images from '../../helpers/imageHelper';
 import colors from '../../helpers/colorHelper';
-import star from '../../images/star.png';
 
 const { width } = Dimensions.get('window');
 
@@ -81,7 +79,6 @@ class ChapterDetailScreen extends Component {
             <Image source={images.up} style={styles.up} resizeMode="stretch" />
           </TouchableOpacity>
         </Animated.View>
-
       </View>
     );
   }
