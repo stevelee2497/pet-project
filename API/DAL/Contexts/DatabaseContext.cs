@@ -25,6 +25,23 @@ namespace DAL.Contexts
 
 		public DbSet<UserRole> UserRoles { get; set; }
 
+		public DbSet<Book> Books { get; set; }
+
+		public DbSet<Rate> Rates { get; set; }
+
+		public DbSet<Comment> Comments { get; set; }
+
+		public DbSet<Subscribe> Subscribes { get; set; }
+
+		public DbSet<Chapter> Chapters { get; set; }
+
+		public DbSet<Author> Authors { get; set; }
+
+		public DbSet<Category> Categories { get; set; }
+
+		public DbSet<BookSelf> BookSelves { get; set; }
+
+
 		#endregion
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
