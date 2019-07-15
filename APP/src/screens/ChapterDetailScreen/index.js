@@ -26,7 +26,6 @@ class ChapterDetailScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hideHeader: false,
       chapter: {
         id: faker.random.uuid(),
         name: `Chương ${faker.random.number(100, 1000)}: ${faker.random.words(6)}`,
@@ -60,6 +59,9 @@ class ChapterDetailScreen extends Component {
       extrapolate: 'clamp',
     });
 
+    const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -74,11 +76,11 @@ class ChapterDetailScreen extends Component {
           <View style={{ height: 100 }} />
         </ScrollView>
         <ChapterDetailHeader height={headerHeight} title={chapter.name} />
-        <Animated.View style={{ opacity: upOpacity }}>
-          <TouchableOpacity style={styles.upContainer} onPress={this.scrollToTop}>
-            <Image source={images.up} style={styles.up} resizeMode="stretch" />
-          </TouchableOpacity>
-        </Animated.View>
+
+        <AnimatedTouchable style={[styles.upContainer, { opacity: upOpacity }]} onPress={this.scrollToTop}>
+          <Image source={images.up} style={styles.up} resizeMode="stretch" />
+        </AnimatedTouchable>
+
       </View>
     );
   }
@@ -125,11 +127,12 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1
   },
   up: {
     width: '40%',
     height: '40%',
-    tintColor: 'white'
+    tintColor: 'white',
   }
 });
 
