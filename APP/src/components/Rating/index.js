@@ -27,14 +27,13 @@ class Rating extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'baseline',
-    marginBottom: 5,
+    alignItems: 'center',
     flexDirection: 'row',
   },
   rate: {
     fontWeight: 'bold',
     color: colors.star,
-    fontSize: 20,
+    fontSize: 24,
     marginRight: 5
   }
 });
