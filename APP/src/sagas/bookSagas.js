@@ -15,12 +15,17 @@ function* fetchBooks({ payload }) {
 
   const books = Array.from({ length: limit }).map(_ => ({
     id: faker.random.uuid(),
-    image: randomImage(200, 300),
-    cover: randomImage(1000, 600),
-    title: faker.random.words(2)
+    name: faker.random.words(2),
+    description: faker.random.words(500),
+    rate: faker.random.number({ min: 1, max: 5 }),
+    readCount: faker.random.number(10, 1000),
+    likedCount: faker.random.number(10, 1000),
+    status: faker.random.boolean(),
+    imageUrl: randomImage(200, 300),
+    coverUrl: randomImage(1000, 600),
+    author: faker.random.words(4),
+    chapterCount: faker.random.number({ min: 400, max: 1000 })
   }));
-
-  console.log(books);
 
   yield put(fetchBooksSuccess(books, type));
 }

@@ -7,11 +7,16 @@ import {
 } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import images from '../../helpers/imageHelper';
 import MinimizedHeader from './MinimizedHeader';
 import BookInformation from './BookInformation';
 
 class BookDetailHeader extends Component {
+  backPressed = () => {
+    this.props.navigation.goBack();
+  }
+
   render() {
     const { translateY, headerCoverHeight } = this.props;
     return (
@@ -19,7 +24,7 @@ class BookDetailHeader extends Component {
         <ImageBackground style={styles.headerBackground} source={images.book} resizeMode="cover">
           <View style={styles.headerBackgroundOverlay} />
         </ImageBackground>
-        <MinimizedHeader />
+        <MinimizedHeader backPressed={this.backPressed} />
         <BookInformation translateY={translateY} />
       </Animated.View>
     );
@@ -54,4 +59,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookDetailHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(BookDetailHeader));

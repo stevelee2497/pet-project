@@ -57,7 +57,7 @@ class LibraryScreen extends Component {
         <BookSlide books={library.featuringBooks} />
         <HorizontalBookList title="SÁCH MỚI" books={library.newBooks} />
         <HorizontalBookList title="ĐỌC NHIỀU" books={library.trendingBooks} />
-        <VerticalBookList books={library.recommendingBooks} />
+        <VerticalBookList title="SÁCH HAY HO" books={library.recommendingBooks} />
         <View style={styles.footer} />
       </ScrollView>
     );

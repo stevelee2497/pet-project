@@ -16,7 +16,7 @@ class BookSlide extends Component {
           {
             books.map(book => (
               <TouchableOpacity key={book.id}>
-                <Image source={book.cover} style={styles.slide} resizeMode="stretch" />
+                <Image source={book.coverUrl} style={styles.slide} resizeMode="stretch" />
               </TouchableOpacity>
             ))
           }

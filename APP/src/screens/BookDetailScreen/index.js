@@ -76,7 +76,13 @@ class BookDetailScreen extends Component {
     );
   };
 
+  showFullCatalog = () => {
+    this.props.navigation.navigate('CatalogScreen');
+  }
+
   renderScene = () => {
+    const book = this.props.navigation.getParam('book', null);
+
     const onScrollAnimating = Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
     );
@@ -87,7 +93,7 @@ class BookDetailScreen extends Component {
         scrollEventThrottle={16}
         onScroll={onScrollAnimating}
       >
-        <Text style={styles.description} numberOfLines={20}>{faker.random.words(200)}</Text>
+        <Text style={styles.description} numberOfLines={20}>{book.description}</Text>
         <Catalog onViewMore={this.showFullCatalog} />
         <HorizontalBookList title="Cùng tác giả" />
         <View style={{ height: HEADER_MAX_HEIGHT }} />

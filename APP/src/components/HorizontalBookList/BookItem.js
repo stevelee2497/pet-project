@@ -7,7 +7,7 @@ import { withNavigation } from 'react-navigation';
 class BookItem extends Component {
   viewBookDetail = () => {
     const { book, navigation } = this.props;
-    navigation.navigate('BookDetailScreen');
+    navigation.navigate('BookDetailScreen', { book });
   }
 
   render() {
@@ -19,12 +19,12 @@ class BookItem extends Component {
       >
         <View style={styles.imageContainer}>
           <Image
-            source={book.image}
+            source={book.imageUrl}
             style={styles.image}
             resizeMode="stretch"
           />
         </View>
-        <Text style={styles.title} numberOfLines={2}>{book.title}</Text>
+        <Text style={styles.title} numberOfLines={2}>{book.name}</Text>
       </TouchableOpacity>
     );
   }
