@@ -4,19 +4,19 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
-import { randomImage } from '../../helpers/imageHelper';
 
 const { width } = Dimensions.get('window');
 
 class BookSlide extends Component {
   render() {
+    const { books } = this.props;
     return (
       <View style={styles.container}>
         <Swiper activeDotColor="white" paginationStyle={styles.paginationStyle} autoplay>
           {
-            Array.from({ length: 4 }).map((_, index) => (
-              <TouchableOpacity key={index.toString()}>
-                <Image source={randomImage(1000, 600)} style={styles.slide} resizeMode="stretch" />
+            books.map(book => (
+              <TouchableOpacity key={book.id}>
+                <Image source={book.cover} style={styles.slide} resizeMode="stretch" />
               </TouchableOpacity>
             ))
           }

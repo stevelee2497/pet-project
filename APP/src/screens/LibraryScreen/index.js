@@ -7,12 +7,13 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
-import { LIBRARY_STATE } from '../../AppConstants';
+import { LIBRARY_STATE, BOOK_TYPE } from '../../AppConstants';
 import LibrarySwitchButtons from '../../components/LibrarySwitchButtons';
 import BookSlide from '../../components/BookSlide';
 import HorizontalBookList from '../../components/HorizontalBookList';
 import VerticalBookList from '../../components/VerticalBookList';
 import images from '../../helpers/imageHelper';
+import { fetchBooks } from '../../actions';
 
 
 class LibraryScreen extends Component {
@@ -38,6 +39,10 @@ class LibraryScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchBooks(BOOK_TYPE.FEATURING_BOOKS, 1, 4);
+    this.props.fetchBooks(BOOK_TYPE.NEW_BOOKS, 1, 10);
+    this.props.fetchBooks(BOOK_TYPE.TRENDING_BOOKS, 1, 10);
+    this.props.fetchBooks(BOOK_TYPE.RECOMMENDING_BOOKS, 1, 3);
   }
 
   onChangeLibraryState = () => {
@@ -45,13 +50,14 @@ class LibraryScreen extends Component {
   }
 
   render() {
+    const { library } = this.props;
     return (
       <ScrollView style={styles.container}>
         <LibrarySwitchButtons libraryState={this.state.libraryState} onChangeLibraryState={this.onChangeLibraryState} />
-        <BookSlide />
-        <HorizontalBookList title="SÁCH MỚI" />
-        <HorizontalBookList title="ĐỌC NHIỀU" />
-        <VerticalBookList />
+        <BookSlide books={library.featuringBooks} />
+        <HorizontalBookList title="SÁCH MỚI" books={library.newBooks} />
+        <HorizontalBookList title="ĐỌC NHIỀU" books={library.trendingBooks} />
+        <VerticalBookList books={library.recommendingBooks} />
         <View style={styles.footer} />
       </ScrollView>
     );
@@ -68,9 +74,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({ library: state.library });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { fetchBooks };
 
 export default connect(
   mapStateToProps,
