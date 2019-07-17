@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import { TabBar, TabView } from 'react-native-tab-view'; // Version can be specified in package.json
 import { Header } from 'react-navigation';
-import faker from 'faker';
+import { connect } from 'react-redux';
 import BookDetailHeader from '../../components/BookDetailHeader';
 import Catalog from '../../components/Catalog';
 import HorizontalBookList from '../../components/HorizontalBookList';
+import { fetchBook } from '../../actions';
 
 const initialLayout = {
   height: 0,
@@ -20,7 +21,7 @@ const initialLayout = {
 };
 
 const TAB_BAR_HEIGHT = 50;
-const HEADER_MAX_HEIGHT = 250 + TAB_BAR_HEIGHT;
+const HEADER_MAX_HEIGHT = 270 + TAB_BAR_HEIGHT;
 const HEADER_MIN_HEIGHT = Header.HEIGHT + TAB_BAR_HEIGHT;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -41,6 +42,11 @@ class BookDetailScreen extends Component {
       ],
       scrollY: new Animated.Value(0),
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchBook('foo');
+    console.log('object');
   }
 
   handleIndexChange = (index) => {
@@ -81,23 +87,26 @@ class BookDetailScreen extends Component {
   }
 
   renderScene = () => {
-    const book = this.props.navigation.getParam('book', null);
+    const { activeBook } = this.props.library;
+    console.log(activeBook);
 
     const onScrollAnimating = Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
     );
 
     return (
+      activeBook && (
       <Animated.ScrollView
         style={{ paddingTop: HEADER_MAX_HEIGHT }}
         scrollEventThrottle={16}
         onScroll={onScrollAnimating}
       >
-        <Text style={styles.description} numberOfLines={20}>{book.description}</Text>
+        <Text style={styles.description} numberOfLines={20}>{activeBook.description}</Text>
         <Catalog onViewMore={this.showFullCatalog} />
         <HorizontalBookList title="Cùng tác giả" />
         <View style={{ height: HEADER_MAX_HEIGHT }} />
       </Animated.ScrollView>
+      )
     );
   };
 
@@ -145,4 +154,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BookDetailScreen;
+const mapStateToProps = state => ({
+  library: state.library
+});
+
+const mapDispatchToProps = {
+  fetchBook
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookDetailScreen);

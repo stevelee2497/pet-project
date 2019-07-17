@@ -18,7 +18,7 @@ const AppStacks = createStackNavigator(
     ChapterDetailScreen
   },
   {
-    initialRouteName: 'BottomTabBar',
+    initialRouteName: 'BookDetailScreen',
     headerMode: 'screen'
   }
 );

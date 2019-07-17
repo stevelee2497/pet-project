@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
-import { watchFetchBooks } from './bookSagas';
+import { watchFetchBooks, watchFetchBook } from './bookSagas';
 
 export default function* sagas() {
-  yield all([watchFetchBooks()]);
+  yield all([watchFetchBooks(), watchFetchBook()]);
 }

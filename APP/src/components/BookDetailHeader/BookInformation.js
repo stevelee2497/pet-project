@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 20,
     shadowOpacity: 10,
+    elevation: 2
   },
   bookImage: {
     width: '100%',
@@ -72,12 +73,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   bookTitle: {
-    color: 'white',
+    color: colors.textLightPrimary,
     fontSize: 19,
     fontWeight: '500',
   },
   normalText: {
-    color: 'white',
+    color: colors.textLightSecondary,
     paddingTop: 3,
     paddingBottom: 3
   },
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 },
     shadowOpacity: 1,
     shadowRadius: 1,
-    elevation: 2
+    elevation: 12
   },
   readButton: {
     paddingLeft: 15,

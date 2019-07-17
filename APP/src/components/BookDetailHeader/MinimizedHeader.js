@@ -8,13 +8,14 @@ import {
 } from 'react-native';
 import { Header } from 'react-navigation';
 import images from '../../helpers/imageHelper';
+import colors from '../../helpers/colorHelper';
 
 const MinimizedHeader = ({ backPressed }) => (
   <View style={styles.header}>
     <TouchableOpacity onPress={backPressed}>
       <Image style={styles.back} source={images.back} resizeMode="stretch" />
     </TouchableOpacity>
-    <Animated.Text style={{ color: 'white', fontSize: 18 }}>Tôi thấy hoa vàng trên cỏ xanh</Animated.Text>
+    <Animated.Text style={styles.title}>Mắt biếc</Animated.Text>
     <TouchableOpacity>
       <Image style={styles.back} source={images.download} resizeMode="stretch" />
     </TouchableOpacity>
@@ -36,9 +37,14 @@ const styles = StyleSheet.create({
   back: {
     width: 24,
     height: 24,
-    tintColor: 'white',
+    tintColor: colors.textLightPrimary,
     marginLeft: 10,
     marginRight: 10
+  },
+  title: {
+    color: colors.textLightPrimary,
+    fontSize: 18,
+    fontWeight: '500'
   }
 });
 

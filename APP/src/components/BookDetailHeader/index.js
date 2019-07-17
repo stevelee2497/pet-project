@@ -21,9 +21,6 @@ class BookDetailHeader extends Component {
     const { translateY, headerCoverHeight } = this.props;
     return (
       <Animated.View style={[styles.container, { height: headerCoverHeight }]}>
-        <ImageBackground style={styles.headerBackground} source={images.book} resizeMode="cover">
-          <View style={styles.headerBackgroundOverlay} />
-        </ImageBackground>
         <MinimizedHeader backPressed={this.backPressed} />
         <BookInformation translateY={translateY} />
       </Animated.View>
@@ -35,9 +32,9 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     width,
-    height: 255,
+    height: 265,
     backgroundColor: 'white',
-    paddingBottom: 5,
+    paddingBottom: 15,
     overflow: 'hidden',
   },
   headerBackground: {

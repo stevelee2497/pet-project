@@ -1,11 +1,12 @@
-import { FETCH_BOOKS_SUCCESS } from '../actions/actionTypes';
+import { FETCH_BOOKS_SUCCESS, FETCH_BOOK_SUCCESS } from '../actions/actionTypes';
 import { BOOK_TYPE } from '../AppConstants';
 
 const initialState = {
   featuringBooks: [],
   newBooks: [],
   trendingBooks: [],
-  recommendingBooks: []
+  recommendingBooks: [],
+  activeBook: null,
 };
 
 const updateState = (state, payload) => {
@@ -27,6 +28,8 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
     case FETCH_BOOKS_SUCCESS:
       return updateState(state, payload);
+    case FETCH_BOOK_SUCCESS:
+      return { ...state, activeBook: payload };
     default:
       return state;
   }
