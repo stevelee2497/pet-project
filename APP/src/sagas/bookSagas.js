@@ -5,6 +5,20 @@ import { fetchBooksSuccess, fetchBookSuccess } from '../actions';
 import { FETCH_BOOKS, FETCH_BOOK } from '../actions/actionTypes';
 import { randomImage } from '../helpers/imageHelper';
 
+const fakeBooks = size => Array.from({ length: size }).map(_ => ({
+  id: faker.random.uuid(),
+  name: faker.random.words(2),
+  description: faker.random.words(500),
+  rate: faker.random.number({ min: 1, max: 5 }),
+  readCount: faker.random.number(10, 1000),
+  likedCount: faker.random.number(10, 1000),
+  status: faker.random.boolean() ? 'Đang ra' : 'Hoàn thành',
+  imageUrl: randomImage(200, 300),
+  coverUrl: randomImage(1000, 600),
+  author: faker.random.words(4),
+  chapterCount: faker.random.number({ min: 400, max: 1000 })
+}));
+
 function* fetchBooks({ payload }) {
   const { type, page, limit } = payload;
   switch (type) {
@@ -13,19 +27,7 @@ function* fetchBooks({ payload }) {
     default:
   }
 
-  const books = Array.from({ length: limit }).map(_ => ({
-    id: faker.random.uuid(),
-    name: faker.random.words(2),
-    description: faker.random.words(500),
-    rate: faker.random.number({ min: 1, max: 5 }),
-    readCount: faker.random.number(10, 1000),
-    likedCount: faker.random.number(10, 1000),
-    status: faker.random.boolean(),
-    imageUrl: randomImage(200, 300),
-    coverUrl: randomImage(1000, 600),
-    author: faker.random.words(4),
-    chapterCount: faker.random.number({ min: 400, max: 1000 })
-  }));
+  const books = fakeBooks(limit);
 
   yield put(fetchBooksSuccess(books, type));
 }
@@ -48,7 +50,8 @@ function* fetchBook({ payload }) {
     imageUrl: randomImage(200, 300),
     coverUrl: randomImage(1000, 600),
     author: faker.random.words(4),
-    chapterCount: faker.random.number({ min: 400, max: 1000 })
+    chapterCount: faker.random.number({ min: 400, max: 1000 }),
+    sameAuthorBooks: fakeBooks(7)
   };
 
   yield put(fetchBookSuccess(book));

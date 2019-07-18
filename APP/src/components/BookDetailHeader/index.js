@@ -1,6 +1,4 @@
 import {
-  View,
-  ImageBackground,
   Dimensions,
   StyleSheet,
   Animated
@@ -8,7 +6,6 @@ import {
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import images from '../../helpers/imageHelper';
 import MinimizedHeader from './MinimizedHeader';
 import BookInformation from './BookInformation';
 
@@ -17,12 +14,16 @@ class BookDetailHeader extends Component {
     this.props.navigation.goBack();
   }
 
+  readNow = () => {
+    this.props.navigation.navigate('CatalogScreen');
+  }
+
   render() {
-    const { translateY, headerCoverHeight } = this.props;
+    const { translateY, headerCoverHeight, book } = this.props;
     return (
       <Animated.View style={[styles.container, { height: headerCoverHeight }]}>
-        <MinimizedHeader backPressed={this.backPressed} />
-        <BookInformation translateY={translateY} />
+        <MinimizedHeader backPressed={this.backPressed} title={book.name} />
+        <BookInformation translateY={translateY} book={book} readNow={this.readNow} />
       </Animated.View>
     );
   }
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-
+  library: state.library
 });
 
 const mapDispatchToProps = {

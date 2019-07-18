@@ -10,12 +10,12 @@ import { Header } from 'react-navigation';
 import images from '../../helpers/imageHelper';
 import colors from '../../helpers/colorHelper';
 
-const MinimizedHeader = ({ backPressed }) => (
+const MinimizedHeader = ({ backPressed, title }) => (
   <View style={styles.header}>
     <TouchableOpacity onPress={backPressed}>
       <Image style={styles.back} source={images.back} resizeMode="stretch" />
     </TouchableOpacity>
-    <Animated.Text style={styles.title}>Mắt biếc</Animated.Text>
+    <Animated.Text style={styles.title}>{title}</Animated.Text>
     <TouchableOpacity>
       <Image style={styles.back} source={images.download} resizeMode="stretch" />
     </TouchableOpacity>

@@ -6,31 +6,30 @@ import {
   StyleSheet,
   Animated
 } from 'react-native';
-import faker from 'faker';
 import React from 'react';
 import { Header } from 'react-navigation';
 import images from '../../helpers/imageHelper';
 import Rating from '../Rating';
 import colors from '../../helpers/colorHelper';
 
-const BookInformation = ({ translateY }) => (
+const BookInformation = ({ translateY, book, readNow }) => (
   <Animated.View style={[styles.bookDetailContainer, { transform: [{ translateY }] }]}>
     <View style={styles.bookImageContainer}>
-      <Image source={images.book} style={styles.bookImage} />
+      <Image source={book.imageUrl} style={styles.bookImage} />
     </View>
     <View style={styles.rightPanel}>
       <View>
-        <Text style={styles.bookTitle} numberOfLines={2}>Tôi thấy hoa vàng trên cỏ xanh</Text>
+        <Text style={styles.bookTitle} numberOfLines={2}>{book.name}</Text>
       </View>
       <View>
-        <Text style={styles.normalText} numberOfLines={1}>Tác giả: {faker.random.words(2)}</Text>
-        <Text style={styles.normalText} numberOfLines={1}>Trạng thái: {faker.random.words(2)}</Text>
-        <Text style={styles.normalText} numberOfLines={1}>Số chương: {faker.random.number(100, 1000)}</Text>
+        <Text style={styles.normalText} numberOfLines={1}>Tác giả: {book.author}</Text>
+        <Text style={styles.normalText} numberOfLines={1}>Trạng thái: {book.status}</Text>
+        <Text style={styles.normalText} numberOfLines={1}>Số chương: {book.chapterCount}</Text>
       </View>
       <Rating rate={4.0} />
 
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.readButtonContainer}>
+        <TouchableOpacity style={styles.readButtonContainer} onPress={readNow}>
           <Text style={styles.readButton}>ĐỌC NGAY</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.roundButtonContainer}>
