@@ -9,10 +9,12 @@ import BottomTabBar from './BottomTabBar';
 import CatalogScreen from '../CatalogScreen';
 import ChapterDetailScreen from '../ChapterDetailScreen';
 import BookDetailScreen from '../BookDetailScreen';
+import BookCollectionScreen from '../BookCollectionScreen';
 
 const AppStacks = createStackNavigator(
   {
     BottomTabBar,
+    BookCollectionScreen,
     BookDetailScreen,
     CatalogScreen,
     ChapterDetailScreen

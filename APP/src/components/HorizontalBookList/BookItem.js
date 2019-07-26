@@ -11,16 +11,16 @@ class BookItem extends Component {
   }
 
   render() {
-    const { book, navigation } = this.props;
+    const { book, width } = this.props;
     return (
       <TouchableOpacity
-        style={styles.container}
+        style={[styles.container, { width: width || 100 }]}
         onPress={this.viewBookDetail}
       >
         <View style={styles.imageContainer}>
           <Image
             source={book.imageUrl}
-            style={styles.image}
+            style={[styles.image, { width: width || 100, height: (width || 100) * 3 / 2 }]}
             resizeMode="stretch"
           />
         </View>
@@ -33,18 +33,14 @@ class BookItem extends Component {
 const styles = StyleSheet.create({
   title: {
     padding: 5,
-    textAlign: 'center'
-  },
-  image: {
-    width: 100,
-    height: 130,
+    textAlign: 'center',
+    fontSize: 11
   },
   container: {
-    width: 100,
     margin: 5,
     elevation: 3,
     backgroundColor: 'white',
-    borderRadius: 5,
+    borderRadius: 3,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 5,
@@ -52,8 +48,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     overflow: 'hidden',
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
+    borderTopLeftRadius: 3,
+    borderTopRightRadius: 3
   }
 });
 

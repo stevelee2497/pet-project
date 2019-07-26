@@ -5,20 +5,26 @@ import {
   FlatList
 } from 'react-native';
 import { connect } from 'react-redux';
-import faker from 'faker';
+import { withNavigation } from 'react-navigation';
 import BookShelfTitle from '../BookShelfTitle';
-import { randomImage } from '../../helpers/imageHelper';
 import BookItem from './BookItem';
 
 class HorizontalBookList extends Component {
   renderItem = ({ item }) => (<BookItem book={item} />)
+
+  onViewMore = () => {
+    const {
+      bookType, title, navigation, books
+    } = this.props;
+    navigation.navigate('BookCollectionScreen', { bookType, title, books });
+  }
 
   render() {
     const { title, books } = this.props;
 
     return (
       <View style={styles.container}>
-        <BookShelfTitle title={title} />
+        <BookShelfTitle title={title} onViewMore={this.onViewMore} />
         <FlatList
           horizontal
           data={books}
@@ -50,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HorizontalBookList);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(HorizontalBookList));
