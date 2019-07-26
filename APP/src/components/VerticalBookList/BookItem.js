@@ -6,19 +6,25 @@ import {
   Image,
   StyleSheet
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import colors from '../../helpers/colorHelper';
 
-export default class BookItem extends Component {
+class BookItem extends Component {
+  viewBookDetail = () => {
+    const { book, navigation } = this.props;
+    navigation.navigate('BookDetailScreen', { book });
+  }
+
   render() {
     const { book } = this.props;
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.imageTouchView}>
-          <Image style={styles.image} source={book.image} resizeMode="stretch" />
+        <TouchableOpacity style={styles.imageTouchView} onPress={this.viewBookDetail}>
+          <Image style={styles.image} source={book.imageUrl} resizeMode="stretch" />
         </TouchableOpacity>
         <View style={styles.rightViews}>
-          <TouchableOpacity>
-            <Text style={styles.title}>{book.title}</Text>
+          <TouchableOpacity onPress={this.viewBookDetail}>
+            <Text style={styles.title}>{book.name}</Text>
           </TouchableOpacity>
           <View>
             <Text style={styles.description}>Tác giả: {book.author}</Text>
@@ -64,3 +70,5 @@ const styles = StyleSheet.create({
     paddingBottom: 2
   }
 });
+
+export default withNavigation(BookItem);

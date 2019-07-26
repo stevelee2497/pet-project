@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -7,12 +7,17 @@ import {
   Text,
   View,
 } from 'react-native';
-import { TabBar, TabView } from 'react-native-tab-view'; // Version can be specified in package.json
-import { Header } from 'react-navigation';
-import faker from 'faker';
+import {
+  TabBar,
+  TabView,
+  SceneMap
+} from 'react-native-tab-view'; // Version can be specified in package.json
+import { Header, ScrollView } from 'react-navigation';
+import { connect } from 'react-redux';
 import BookDetailHeader from '../../components/BookDetailHeader';
 import Catalog from '../../components/Catalog';
 import HorizontalBookList from '../../components/HorizontalBookList';
+import { fetchBook } from '../../actions';
 
 const initialLayout = {
   height: 0,
@@ -20,9 +25,17 @@ const initialLayout = {
 };
 
 const TAB_BAR_HEIGHT = 50;
-const HEADER_MAX_HEIGHT = 250 + TAB_BAR_HEIGHT;
+const HEADER_MAX_HEIGHT = 270 + TAB_BAR_HEIGHT;
 const HEADER_MIN_HEIGHT = Header.HEIGHT + TAB_BAR_HEIGHT;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+const FirstRoute = () => (
+  <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
+);
+
+const SecondRoute = () => (
+  <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+);
 
 class BookDetailScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -35,16 +48,26 @@ class BookDetailScreen extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Tổng quan' },
-        { key: '2', title: 'Đánh giá' },
-        { key: '3', title: 'Bình luận' },
+        { key: 'overview', title: 'Tổng quan' },
+        { key: 'review', title: 'Đánh giá' },
+        { key: 'comment', title: 'Bình luận' },
       ],
       scrollY: new Animated.Value(0),
     };
+    this.overviewScrollView = createRef();
+  }
+
+  componentDidMount() {
+    this.props.fetchBook('foo');
   }
 
   handleIndexChange = (index) => {
     this.setState({ index });
+    if (this.state.index === 0 && this.state.scrollY._value !== 0) {
+      setTimeout(() => {
+        this.overviewScrollView.current.scrollTo({ y: HEADER_SCROLL_DISTANCE, animated: true });
+      }, 10);
+    }
   };
 
   backPressed = () => {}
@@ -68,30 +91,39 @@ class BookDetailScreen extends Component {
       extrapolate: 'clamp',
     });
 
+    const book = this.props.navigation.getParam('book', null);
+
     return (
       <Animated.View style={[styles.header, { height: headerHeight }]}>
-        <BookDetailHeader translateY={translateY} headerCoverHeight={headerCoverHeight} backPressed={this.props.backPressed} />
+        <BookDetailHeader translateY={translateY} headerCoverHeight={headerCoverHeight} backPressed={this.props.backPressed} book={book} />
         <TabBar {...props} style={styles.tabBar} labelStyle={styles.tabBarLabel} />
       </Animated.View>
     );
   };
 
+  showFullCatalog = () => {
+    this.props.navigation.navigate('CatalogScreen');
+  }
+
   renderScene = () => {
+    const { activeBook } = this.props.library;
     const onScrollAnimating = Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
     );
-
     return (
-      <Animated.ScrollView
+      activeBook && (
+      <ScrollView
         style={{ paddingTop: HEADER_MAX_HEIGHT }}
         scrollEventThrottle={16}
         onScroll={onScrollAnimating}
+        ref={this.overviewScrollView}
       >
-        <Text style={styles.description} numberOfLines={20}>{faker.random.words(200)}</Text>
+        <Text style={styles.description} numberOfLines={20}>{activeBook.description}</Text>
         <Catalog onViewMore={this.showFullCatalog} />
-        <HorizontalBookList title="Cùng tác giả" />
+        <HorizontalBookList title="Cùng tác giả" books={activeBook.sameAuthorBooks} />
         <View style={{ height: HEADER_MAX_HEIGHT }} />
-      </Animated.ScrollView>
+      </ScrollView>
+      )
     );
   };
 
@@ -100,7 +132,11 @@ class BookDetailScreen extends Component {
       <TabView
         style={styles.container}
         navigationState={this.state}
-        renderScene={this.renderScene}
+        renderScene={SceneMap({
+          overview: () => this.renderScene(),
+          review: FirstRoute,
+          comment: SecondRoute,
+        })}
         renderTabBar={this.renderHeader}
         onIndexChange={this.handleIndexChange}
         initialLayout={initialLayout}
@@ -136,7 +172,18 @@ const styles = StyleSheet.create({
   description: {
     lineHeight: 23,
     padding: 15
-  }
+  },
+  scene: {
+    flex: 1,
+  },
 });
 
-export default BookDetailScreen;
+const mapStateToProps = state => ({
+  library: state.library
+});
+
+const mapDispatchToProps = {
+  fetchBook
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookDetailScreen);

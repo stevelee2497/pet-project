@@ -1,26 +1,29 @@
 import {
-  View,
-  ImageBackground,
   Dimensions,
   StyleSheet,
   Animated
 } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import images from '../../helpers/imageHelper';
+import { withNavigation } from 'react-navigation';
 import MinimizedHeader from './MinimizedHeader';
 import BookInformation from './BookInformation';
 
 class BookDetailHeader extends Component {
+  backPressed = () => {
+    this.props.navigation.goBack();
+  }
+
+  readNow = () => {
+    this.props.navigation.navigate('CatalogScreen');
+  }
+
   render() {
-    const { translateY, headerCoverHeight } = this.props;
+    const { translateY, headerCoverHeight, book } = this.props;
     return (
       <Animated.View style={[styles.container, { height: headerCoverHeight }]}>
-        <ImageBackground style={styles.headerBackground} source={images.book} resizeMode="cover">
-          <View style={styles.headerBackgroundOverlay} />
-        </ImageBackground>
-        <MinimizedHeader />
-        <BookInformation translateY={translateY} />
+        <MinimizedHeader backPressed={this.backPressed} title={book.name} />
+        <BookInformation translateY={translateY} book={book} readNow={this.readNow} />
       </Animated.View>
     );
   }
@@ -30,9 +33,9 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     width,
-    height: 255,
+    height: 265,
     backgroundColor: 'white',
-    paddingBottom: 5,
+    paddingBottom: 15,
     overflow: 'hidden',
   },
   headerBackground: {
@@ -47,11 +50,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-
+  library: state.library
 });
 
 const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookDetailHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(BookDetailHeader));

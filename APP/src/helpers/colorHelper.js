@@ -6,7 +6,9 @@ const colors = {
   primaryText: '#212121',
   secondaryText: '#757575',
   divider: '#BDBDBD',
-  star: '#F1C40F'
+  star: '#F1C40F',
+  textLightPrimary: '#212121',
+  textLightSecondary: '#757575',
 };
 
 export default colors;

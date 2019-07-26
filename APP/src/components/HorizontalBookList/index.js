@@ -11,23 +11,10 @@ import { randomImage } from '../../helpers/imageHelper';
 import BookItem from './BookItem';
 
 class HorizontalBookList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      books: Array.from({ length: 21 }).map((_, index) => ({
-        id: index.toString(),
-        image: randomImage(200, 300),
-        title: faker.random.words(2)
-      }))
-    };
-  }
-
   renderItem = ({ item }) => (<BookItem book={item} />)
 
   render() {
-    const { books } = this.state;
-    const { title } = this.props;
+    const { title, books } = this.props;
 
     return (
       <View style={styles.container}>
