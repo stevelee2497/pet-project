@@ -15,7 +15,7 @@ const MinimizedHeader = ({ backPressed, title }) => (
     <TouchableOpacity onPress={backPressed}>
       <Image style={styles.back} source={images.back} resizeMode="stretch" />
     </TouchableOpacity>
-    <Animated.Text style={styles.title}>{title}</Animated.Text>
+    <Animated.Text style={styles.title} numberOfLines={1}>{title}</Animated.Text>
     <TouchableOpacity>
       <Image style={styles.back} source={images.download} resizeMode="stretch" />
     </TouchableOpacity>
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    zIndex: 2
+    zIndex: 2,
+    flex: 1
   },
   back: {
     width: 24,
@@ -44,7 +45,8 @@ const styles = StyleSheet.create({
   title: {
     color: colors.textLightPrimary,
     fontSize: 18,
-    fontWeight: '500'
+    fontWeight: '500',
+    maxWidth: 300
   }
 });
 

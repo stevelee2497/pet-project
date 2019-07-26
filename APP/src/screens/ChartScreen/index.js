@@ -22,7 +22,11 @@ class ChartScreen extends Component {
         <Image style={styles.headerRight} source={images.filter} resizeMode="stretch" />
       </TouchableOpacity>
     ),
-    headerLeft: (<View />),
+    headerLeft: (
+      <TouchableOpacity>
+        <Image style={styles.headerLeft} source={images.refresh} resizeMode="stretch" />
+      </TouchableOpacity>
+    ),
     headerTitle: <Text style={styles.headerTitle}>{navigation.getParam('title', 'Bảng xếp hạng')}</Text>
   });
 
@@ -59,6 +63,11 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 10,
+    marginLeft: 10
+  },
+  headerLeft: {
+    width: 20,
+    height: 20,
     marginLeft: 10
   },
   headerTitle: {
