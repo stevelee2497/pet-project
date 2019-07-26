@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 10
   },
   separator: {
     height: 0.8,
