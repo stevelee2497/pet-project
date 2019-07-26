@@ -7,7 +7,7 @@ import { randomImage } from '../helpers/imageHelper';
 
 export const fakeBooks = size => Array.from({ length: size }).map(_ => ({
   id: faker.random.uuid(),
-  name: faker.random.words(2),
+  name: faker.random.words(6),
   description: faker.random.words(500),
   rate: faker.random.number({ min: 1, max: 5 }),
   readCount: faker.random.number(10, 1000),

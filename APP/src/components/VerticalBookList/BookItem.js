@@ -24,10 +24,10 @@ class BookItem extends Component {
         </TouchableOpacity>
         <View style={styles.rightViews}>
           <TouchableOpacity onPress={this.viewBookDetail}>
-            <Text style={styles.title}>{book.name}</Text>
+            <Text style={styles.title} numberOfLines={2}>{book.name}</Text>
           </TouchableOpacity>
           <View>
-            <Text style={styles.description}>Tác giả: {book.author}</Text>
+            <Text style={styles.description} numberOfLines={1}>Tác giả: {book.author}</Text>
             <Text style={styles.description}>Tình trạng: {book.status}</Text>
             <Text style={styles.description}>Số chương: {book.chapterCount}</Text>
           </View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 80,
-    height: 110
+    height: 120
   },
   imageTouchView: {
     elevation: 10,
