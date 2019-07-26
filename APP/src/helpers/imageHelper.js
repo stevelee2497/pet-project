@@ -28,6 +28,7 @@ const images = {
   sort: require('../images/sort.png'),
   setting: require('../images/setting.png'),
   catalog: require('../images/catalog.png'),
-  up: require('../images/up.png')
+  up: require('../images/up.png'),
+  filter: require('../images/filter.png')
 };
 export default images;

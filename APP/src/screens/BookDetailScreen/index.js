@@ -18,6 +18,7 @@ import BookDetailHeader from '../../components/BookDetailHeader';
 import Catalog from '../../components/Catalog';
 import HorizontalBookList from '../../components/HorizontalBookList';
 import { fetchBook } from '../../actions';
+import colors from '../../helpers/colorHelper';
 
 const initialLayout = {
   height: 0,
@@ -96,7 +97,12 @@ class BookDetailScreen extends Component {
     return (
       <Animated.View style={[styles.header, { height: headerHeight }]}>
         <BookDetailHeader translateY={translateY} headerCoverHeight={headerCoverHeight} backPressed={this.props.backPressed} book={book} />
-        <TabBar {...props} style={styles.tabBar} labelStyle={styles.tabBarLabel} />
+        <TabBar
+          {...props}
+          style={styles.tabBar}
+          labelStyle={styles.tabBarLabel}
+          indicatorStyle={{ backgroundColor: colors.pink }}
+        />
       </Animated.View>
     );
   };

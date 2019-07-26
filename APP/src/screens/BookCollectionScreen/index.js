@@ -15,15 +15,14 @@ import { fakeBooks } from '../../sagas/bookSagas';
 
 const { width } = Dimensions.get('window');
 
-class ChartScreen extends Component {
+class BookCollectionScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
       <TouchableOpacity>
         <Image style={styles.headerRight} source={images.filter} resizeMode="stretch" />
       </TouchableOpacity>
     ),
-    headerLeft: (<View />),
-    headerTitle: <Text style={styles.headerTitle}>{navigation.getParam('title', 'Bảng xếp hạng')}</Text>
+    headerTitle: <Text style={styles.headerTitle}>{navigation.getParam('title', 'Thư viện')}</Text>
   });
 
   renderItem = ({ item }) => (
@@ -54,6 +53,7 @@ class ChartScreen extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   headerRight: {
     width: 20,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     flex: 1,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   container: {
     flex: 1,
@@ -71,11 +71,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
 
-const mapDispatchToProps = {};
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChartScreen);
+const mapDispatchToProps = {
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookCollectionScreen);

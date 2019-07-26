@@ -4,7 +4,8 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Text
 } from 'react-native';
 import { connect } from 'react-redux';
 import { LIBRARY_STATE, BOOK_TYPE } from '../../AppConstants';
@@ -18,17 +19,17 @@ import { fetchBooks } from '../../actions';
 
 class LibraryScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Thư viện',
     headerRight: (
       <TouchableOpacity onPress={() => { navigation.navigate('BookDetailScreen'); }}>
-        <Image style={{ width: 24, height: 24, marginRight: 10 }} source={images.search} resizeMode="stretch" />
+        <Image style={styles.headerRight} source={images.search} resizeMode="stretch" />
       </TouchableOpacity>
     ),
     headerLeft: (
       <TouchableOpacity>
-        <Image style={{ width: 20, height: 20, marginLeft: 10 }} source={images.refresh} resizeMode="stretch" />
+        <Image style={styles.headerLeft} source={images.refresh} resizeMode="stretch" />
       </TouchableOpacity>
     ),
+    headerTitle: <Text style={styles.title}>Thư viện</Text>
   });
 
   constructor(props) {
@@ -55,9 +56,9 @@ class LibraryScreen extends Component {
       <ScrollView style={styles.container}>
         <LibrarySwitchButtons libraryState={this.state.libraryState} onChangeLibraryState={this.onChangeLibraryState} />
         <BookSlide books={library.featuringBooks} />
-        <HorizontalBookList title="SÁCH MỚI" books={library.newBooks} />
-        <HorizontalBookList title="ĐỌC NHIỀU" books={library.trendingBooks} />
-        <VerticalBookList title="SÁCH HAY HO" books={library.recommendingBooks} />
+        <HorizontalBookList title="SÁCH MỚI" books={library.newBooks} bookType={BOOK_TYPE.NEW_BOOKS} />
+        <HorizontalBookList title="ĐỌC NHIỀU" books={library.trendingBooks} bookType={BOOK_TYPE.TRENDING_BOOKS} />
+        <VerticalBookList title="SÁCH HAY HO" books={library.recommendingBooks} bookType={BOOK_TYPE.RECOMMENDING_BOOKS} />
         <View style={styles.footer} />
       </ScrollView>
     );
@@ -71,6 +72,20 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 20
+  },
+  headerRight: {
+    width: 24,
+    height: 24,
+    marginRight: 10
+  },
+  headerLeft: {
+    width: 20,
+    height: 20,
+    marginLeft: 10
+  },
+  title: {
+    flex: 1,
+    textAlign: 'center'
   }
 });
 

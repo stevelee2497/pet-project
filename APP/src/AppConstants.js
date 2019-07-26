@@ -8,7 +8,6 @@ const DES = 'DESCENDING';
 
 export const CHAPTER_SORT = { ASC, DES };
 
-
 const FEATURING_BOOKS = 'FEATURED_BOOKS';
 const NEW_BOOKS = 'NEW_BOOKS';
 const TRENDING_BOOKS = 'TRENDING_BOOKS';

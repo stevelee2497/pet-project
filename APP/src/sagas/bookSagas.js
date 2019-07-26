@@ -5,7 +5,7 @@ import { fetchBooksSuccess, fetchBookSuccess } from '../actions';
 import { FETCH_BOOKS, FETCH_BOOK } from '../actions/actionTypes';
 import { randomImage } from '../helpers/imageHelper';
 
-const fakeBooks = size => Array.from({ length: size }).map(_ => ({
+export const fakeBooks = size => Array.from({ length: size }).map(_ => ({
   id: faker.random.uuid(),
   name: faker.random.words(2),
   description: faker.random.words(500),

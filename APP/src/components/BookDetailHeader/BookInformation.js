@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
   },
   rightPanel: {
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 20,
+    marginRight: 20,
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 },
     shadowOpacity: 1,
     shadowRadius: 1,
-    elevation: 12
+    elevation: 2
   },
   readButton: {
     paddingLeft: 15,
@@ -123,6 +123,5 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   }
 });
-
 
 export default BookInformation;
