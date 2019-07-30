@@ -4,17 +4,13 @@ import { withNavigation } from 'react-navigation';
 import colors from '../../helpers/colorHelper';
 
 class ChapterItem extends Component {
-  showChapterDetail = () => {
-    this.props.navigation.navigate('ChapterDetailScreen');
-  }
-
   render() {
-    const { chapter } = this.props;
+    const { chapter, color, onChapterPress } = this.props;
     return (
-      <TouchableOpacity style={{ height: 40, justifyContent: 'center' }} onPress={this.showChapterDetail}>
+      <TouchableOpacity style={{ height: 40, justifyContent: 'center' }} onPress={onChapterPress}>
         <Text
           style={{
-            color: colors.accent,
+            color: color || colors.accent,
             padding: 10,
             paddingLeft: 20,
             paddingRight: 20

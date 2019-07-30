@@ -47,7 +47,7 @@ const BottomTabBar = createBottomTabNavigator(
     AudioStack,
   },
   {
-    initialRouteName: 'BookShelfStack',
+    initialRouteName: 'AudioStack',
     tabBarOptions: {
       activeTintColor: colors.pink,
       inactiveTintColor: 'black',
