@@ -19,6 +19,11 @@ export const fakeBooks = size => Array.from({ length: size }).map(_ => ({
   chapterCount: faker.random.number({ min: 400, max: 1000 })
 }));
 
+export const fakeChapters = size => Array.from({ length: size }).map((_, index) => ({
+  id: index.toString(),
+  name: `Chương ${index}: ${faker.random.words(6)}`
+}));
+
 function* fetchBooks({ payload }) {
   const { type, page, limit } = payload;
   switch (type) {

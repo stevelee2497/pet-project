@@ -29,6 +29,12 @@ const images = {
   setting: require('../images/setting.png'),
   catalog: require('../images/catalog.png'),
   up: require('../images/up.png'),
-  filter: require('../images/filter.png')
+  filter: require('../images/filter.png'),
+  play: require('../images/play.png'),
+  pause: require('../images/pause.png'),
+  next30: require('../images/next-30.png'),
+  back30: require('../images/back-30.png'),
+  forward: require('../images/forward.png'),
+  backward: require('../images/previous.png')
 };
 export default images;
