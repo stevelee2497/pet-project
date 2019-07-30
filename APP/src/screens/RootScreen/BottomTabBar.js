@@ -33,21 +33,20 @@ const BookShelfStack = createStackNavigator({ BookShelfScreen }, stackConfig('T�
 
 const ChartStack = createStackNavigator({ ChartScreen }, stackConfig('Xếp hạng', images.chart));
 
-const ProfileStack = createStackNavigator({ ProfileScreen }, stackConfig('Hồ sơ', images.circleUser));
-
 const AudioStack = createStackNavigator({ AudioScreen }, stackConfig('Nghe', images.audio));
 
+const ProfileStack = createStackNavigator({ ProfileScreen }, stackConfig('Cá nhân', images.circleUser));
 
 const BottomTabBar = createBottomTabNavigator(
   {
     LibraryStack,
     BookShelfStack,
     ChartStack,
-    ProfileStack,
     AudioStack,
+    ProfileStack,
   },
   {
-    initialRouteName: 'AudioStack',
+    initialRouteName: 'ProfileStack',
     tabBarOptions: {
       activeTintColor: colors.pink,
       inactiveTintColor: 'black',
