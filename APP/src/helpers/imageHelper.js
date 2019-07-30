@@ -35,6 +35,11 @@ const images = {
   next30: require('../images/next-30.png'),
   back30: require('../images/back-30.png'),
   forward: require('../images/forward.png'),
-  backward: require('../images/previous.png')
+  backward: require('../images/previous.png'),
+  about: require('../images/about.png'),
+  rating: require('../images/rating.png'),
+  email: require('../images/email.png'),
+  terms: require('../images/terms.png'),
+  logOut: require('../images/log-out.png')
 };
 export default images;

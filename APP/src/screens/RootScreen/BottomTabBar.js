@@ -35,7 +35,7 @@ const ChartStack = createStackNavigator({ ChartScreen }, stackConfig('Xếp hạ
 
 const AudioStack = createStackNavigator({ AudioScreen }, stackConfig('Nghe', images.audio));
 
-const ProfileStack = createStackNavigator({ ProfileScreen }, stackConfig('Hồ sơ', images.circleUser));
+const ProfileStack = createStackNavigator({ ProfileScreen }, stackConfig('Cá nhân', images.circleUser));
 
 const BottomTabBar = createBottomTabNavigator(
   {
@@ -46,7 +46,7 @@ const BottomTabBar = createBottomTabNavigator(
     ProfileStack,
   },
   {
-    initialRouteName: 'AudioStack',
+    initialRouteName: 'ProfileStack',
     tabBarOptions: {
       activeTintColor: colors.pink,
       inactiveTintColor: 'black',
