@@ -52,6 +52,7 @@ class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'whitesmoke'
   },
   title: {
     flex: 1,
