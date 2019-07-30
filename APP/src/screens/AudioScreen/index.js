@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import Player from '../../components/Player';
@@ -23,19 +24,32 @@ class AudioScreen extends Component {
   constructor(props) {
     super(props);
 
+    const chapters = fakeChapters(50);
+
     this.state = {
-      chapters: fakeChapters(50)
+      chapters,
+      playingChapter: chapters[0]
     };
   }
 
-  renderItem = ({ item }) => (<ChapterItem chapter={item} color={colors.textLightSecondary} />)
+  onChapterItemPress = (chapter) => {
+    this.setState({ playingChapter: chapter });
+  }
+
+  renderItem = ({ item }) => (
+    <ChapterItem
+      chapter={item}
+      color={item === this.state.playingChapter ? colors.accent : colors.textLightSecondary}
+      onChapterPress={this.onChapterItemPress}
+    />
+  )
 
   renderSeparator = () => (<Separator />)
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Player />
+        <Player chapter={this.state.playingChapter} />
         <View style={{ height: 1, backgroundColor: colors.divider }} />
         <View>
           <FlatList
@@ -43,6 +57,7 @@ class AudioScreen extends Component {
             renderItem={this.renderItem}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={this.renderSeparator}
+            extraData={this.state.playingChapter}
           />
         </View>
       </ScrollView>

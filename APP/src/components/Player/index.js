@@ -14,11 +14,11 @@ import colors from '../../helpers/colorHelper';
 
 const { width } = Dimensions.get('window');
 
-const Player = () => (
+const Player = ({ chapter }) => (
   <View style={styles.container}>
     <Image style={styles.image} source={randomImage(500, 500)} />
     <Text style={styles.bookTitle} numberOfLines={2}>{faker.random.words(2)}</Text>
-    <Text style={styles.chapterTitle}>Chương 1: {faker.random.words(2)}</Text>
+    <Text style={styles.chapterTitle}>{chapter.name}</Text>
     <Slider
       value={0.5}
       style={styles.sliderContainerStyle}
