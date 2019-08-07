@@ -6,7 +6,7 @@ namespace DAL.Models
 	[Table("Subscribe")]
 	public class Subscribe : BaseEntity
 	{
-		public Guid BookId { get; set; }
+		public Guid? BookId { get; set; }
 		public virtual Book Book { get; set; }
 
 

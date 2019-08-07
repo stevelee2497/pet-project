@@ -46,7 +46,7 @@ namespace DAL.Contexts
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseMySql(_configRoot.GetConnectionString("DefaultConnection"));
+			optionsBuilder.UseSqlServer(_configRoot.GetConnectionString("DefaultConnection"));
 		}
 	}
 

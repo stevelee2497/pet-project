@@ -42,7 +42,7 @@ namespace API
 
 			services.AddDbContext<DatabaseContext>(options =>
 			{
-				options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "Server API", Version = "v1"}); });

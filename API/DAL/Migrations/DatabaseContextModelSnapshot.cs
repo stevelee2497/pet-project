@@ -3,6 +3,7 @@ using System;
 using DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
@@ -15,7 +16,8 @@ namespace DAL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DAL.Models.Author", b =>
                 {
@@ -78,7 +80,7 @@ namespace DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("BookId");
+                    b.Property<Guid?>("BookId");
 
                     b.Property<DateTimeOffset>("CreatedTime");
 
@@ -146,7 +148,7 @@ namespace DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("BookId");
+                    b.Property<Guid?>("BookId");
 
                     b.Property<DateTimeOffset>("CreatedTime");
 
@@ -172,7 +174,7 @@ namespace DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("BookId");
+                    b.Property<Guid?>("BookId");
 
                     b.Property<DateTimeOffset>("CreatedTime");
 
@@ -219,7 +221,7 @@ namespace DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("BookId");
+                    b.Property<Guid?>("BookId");
 
                     b.Property<DateTimeOffset>("CreatedTime");
 
@@ -311,8 +313,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Book", "Book")
                         .WithMany("BookSelves")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BookId");
 
                     b.HasOne("DAL.Models.User", "User")
                         .WithMany("BookSelves")
@@ -332,8 +333,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Book", "Book")
                         .WithMany("Comments")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BookId");
 
                     b.HasOne("DAL.Models.User", "User")
                         .WithMany("Comments")
@@ -345,8 +345,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Book", "Book")
                         .WithMany("Rates")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BookId");
 
                     b.HasOne("DAL.Models.User", "User")
                         .WithMany("Rates")
@@ -358,8 +357,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Book", "Book")
                         .WithMany("Subscribes")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BookId");
 
                     b.HasOne("DAL.Models.User", "User")
                         .WithMany("Subscribes")

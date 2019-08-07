@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class AddBookOnline : Migration
+    public partial class InitForSqlServer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -147,7 +147,7 @@ namespace DAL.Migrations
                     CreatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
                     LastChapterUrl = table.Column<string>(nullable: true),
-                    BookId = table.Column<Guid>(nullable: false),
+                    BookId = table.Column<Guid>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -158,7 +158,7 @@ namespace DAL.Migrations
                         column: x => x.BookId,
                         principalTable: "Book",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BookSelf_User_UserId",
                         column: x => x.UserId,
@@ -191,6 +191,35 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    CreatedTime = table.Column<DateTimeOffset>(nullable: false),
+                    UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
+                    Message = table.Column<string>(nullable: true),
+                    BookId = table.Column<Guid>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comment_Book_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Book",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comment_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rate",
                 columns: table => new
                 {
@@ -200,7 +229,7 @@ namespace DAL.Migrations
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
                     RatePoint = table.Column<int>(nullable: false),
                     Message = table.Column<string>(nullable: true),
-                    BookId = table.Column<Guid>(nullable: false),
+                    BookId = table.Column<Guid>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -211,7 +240,7 @@ namespace DAL.Migrations
                         column: x => x.BookId,
                         principalTable: "Book",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Rate_User_UserId",
                         column: x => x.UserId,
@@ -228,7 +257,7 @@ namespace DAL.Migrations
                     EntityStatus = table.Column<int>(nullable: false),
                     CreatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
-                    BookId = table.Column<Guid>(nullable: false),
+                    BookId = table.Column<Guid>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -239,7 +268,7 @@ namespace DAL.Migrations
                         column: x => x.BookId,
                         principalTable: "Book",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Subscribe_User_UserId",
                         column: x => x.UserId,
@@ -279,6 +308,16 @@ namespace DAL.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_BookId",
+                table: "Comment",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_UserId",
+                table: "Comment",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Rate_BookId",
                 table: "Rate",
                 column: "BookId");
@@ -316,6 +355,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Chapter");
+
+            migrationBuilder.DropTable(
+                name: "Comment");
 
             migrationBuilder.DropTable(
                 name: "Rate");
