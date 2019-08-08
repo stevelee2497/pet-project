@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using AutoMapper;
 
 namespace Services.Implementations
 {
@@ -31,17 +32,6 @@ namespace Services.Implementations
 			return new BaseResponse<List<User>>(HttpStatusCode.OK, data: All().ToList());
 		}
 
-		public BaseResponse<User> Create(User user)
-		{
-			var response = Create(user, out var isSaved);
-			if (!isSaved)
-			{
-				throw new InternalServerErrorException("Couldn't create user record");
-			}
-
-			return new BaseResponse<User>(HttpStatusCode.OK, data: response);
-		}
-
 		public BaseResponse<User> Get(Guid id)
 		{
 			var user = Find(id);
@@ -53,7 +43,7 @@ namespace Services.Implementations
 			return new BaseResponse<User>(HttpStatusCode.OK, data: user);
 		}
 
-		public BaseResponse<Token> Register(AuthDto authDto)
+		public BaseResponse<string> Register(AuthDto authDto)
 		{
 			if (string.IsNullOrEmpty(authDto.Email))
 			{
@@ -75,25 +65,25 @@ namespace Services.Implementations
 			{
 				Email = authDto.Email,
 				PasswordHash = hash,
-				PasswordSalt = salt
+				PasswordSalt = salt,
+				DisplayName = authDto.Email,
 			};
 			var response = Create(user, out var isSaved);
 
 			var role = _roleService.FirstOrDefault(r => r.Name.Equals(DefaultRole.User));
 			if (role == null)
 			{
-				throw new InternalServerErrorException("No Role");
+				throw new InternalServerErrorException($"Không có role {DefaultRole.User} tồn tại");
 			}
 
 			_userRoleService.Create(new UserRole {UserId = response.Id, RoleId = role.Id}, out isSaved);
 
 			if (!isSaved)
 			{
-				throw new InternalServerErrorException("Couldn't create user record");
+				throw new InternalServerErrorException("Không thể đăng ký, vui lòng thử lại");
 			}
 
-			var token = JwtHelper.CreateToken(response, DefaultRole.User);
-			return new BaseResponse<Token>(HttpStatusCode.OK, data: token);
+			return new BaseResponse<string>(HttpStatusCode.OK, data: "Đăng ký thành công");
 		}
 
 		public BaseResponse<Token> Login(AuthDto authDto)
@@ -124,7 +114,7 @@ namespace Services.Implementations
 				throw new BadRequestException("Mật khẩu không chính xác.");
 			}
 
-			var token = JwtHelper.CreateToken(user, user.UserRoles.Select(ur => ur.Role.Name).ToArray());
+			var token = JwtHelper.CreateToken(Mapper.Map<UserDto>(user));
 			return new BaseResponse<Token>(HttpStatusCode.OK, data: token);
 		}
 	}

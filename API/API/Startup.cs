@@ -27,6 +27,7 @@ namespace API
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
+			AutoMapperConfig.RegisterModel();
 		}
 
 		public void ConfigureServices(IServiceCollection services)

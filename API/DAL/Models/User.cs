@@ -17,6 +17,11 @@ namespace DAL.Models
 		[Required]
 		public byte[] PasswordHash { get; set; }
 
+		[Required]
+		public string DisplayName { get; set; }
+
+		public string AvatarUrl { get; set; }
+
 		public DateTimeOffset? AllowTokensSince { get; set; }
 
 		public virtual ICollection<UserRole> UserRoles { get; set; }

@@ -28,7 +28,7 @@ namespace API.Controllers
 
 		[HttpPost("register")]
 		[Produces("application/json")]
-		public BaseResponse<Token> Register([FromBody] AuthDto user)
+		public BaseResponse<string> Register([FromBody] AuthDto user)
 		{
 			return _userService.Register(user);
 		}
