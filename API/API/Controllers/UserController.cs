@@ -21,7 +21,7 @@ namespace API.Controllers
 		[HttpGet]
 		[Authorize]
 		[Produces("application/json")]
-		public BaseResponse<List<User>> All([FromHeader]IDictionary<string, string> @params)
+		public BaseResponse<List<UserDto>> All([FromHeader]IDictionary<string, string> @params)
 		{
 			return _userService.All(@params);
 		}

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using Newtonsoft.Json.Serialization;
 
 namespace Services.Helpers
 {
@@ -7,15 +8,9 @@ namespace Services.Helpers
 	{
 		public static Dictionary<string, object> ToDictionary(object obj)
 		{
-			var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
-			{
-				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-				DefaultValueHandling = DefaultValueHandling.Ignore
-			});
-			return JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
-			{
-				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-			});
+			var json = JsonConvert.SerializeObject(obj);
+
+			return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 		}
 
 		public static T ToObject<T>(Dictionary<string, object> dictionary)

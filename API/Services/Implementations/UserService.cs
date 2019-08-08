@@ -27,9 +27,14 @@ namespace Services.Implementations
 			_roleService = roleService;
 		}
 
-		public BaseResponse<List<User>> All(IDictionary<string, string> @params)
+		public BaseResponse<List<UserDto>> All(IDictionary<string, string> @params)
 		{
-			return new BaseResponse<List<User>>(HttpStatusCode.OK, data: All().ToList());
+			var users = Include(user => user.UserRoles).ThenInclude(user => user.Role)
+				.AsEnumerable()
+				.Select(Mapper.Map<UserDto>)
+				.ToList();
+
+			return new BaseResponse<List<UserDto>>(HttpStatusCode.OK, data: users);
 		}
 
 		public BaseResponse<User> Get(Guid id)

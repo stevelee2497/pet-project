@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Repositories.Helpers;
 using Services.Extensions;
 using Services.Helpers;
@@ -27,6 +28,7 @@ namespace API
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
+
 			AutoMapperConfig.RegisterModel();
 		}
 
@@ -72,6 +74,15 @@ namespace API
 			});
 
 			app.UseMvc();
+
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+			{
+				Formatting = Formatting.Indented,
+				DefaultValueHandling = DefaultValueHandling.Ignore,
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+				ContractResolver = new CamelCasePropertyNamesContractResolver()
+			};
+
 			DbInitializer.DbInitializer.Seed(app.ApplicationServices);
 		}
 	}

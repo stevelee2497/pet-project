@@ -1,8 +1,5 @@
-﻿using System.Runtime.Serialization;
-
-namespace Services.DTOs.Output
+﻿namespace Services.DTOs.Output
 {
-	[DataContract]
 	public class UserDto
 	{
 		public string Id { get; set; }

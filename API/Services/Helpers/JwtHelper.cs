@@ -8,7 +8,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using AutoMapper;
 using Services.DTOs.Output;
 
 namespace Services.Helpers
@@ -52,10 +51,6 @@ namespace Services.Helpers
 		{
 			options.DefaultAuthenticateScheme = Jwt.DefaultScheme;
 			options.DefaultChallengeScheme = Jwt.DefaultScheme;
-		}
-
-		public static void AddRefreshToken(string refreshToken)
-		{
 		}
 
 		public static void ConfigureJwtBearerOptions(JwtBearerOptions options)

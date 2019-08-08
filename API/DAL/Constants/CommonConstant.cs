@@ -26,7 +26,7 @@ namespace DAL.Constants
 	    // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?tabs=visual-studio
 	    public const string Secret = "If you are wondering what is it about, then just ignore it :)))))))))";
 	    public const string DefaultScheme = "JwtBearer";
-	    public const string Issuer = "Giveaway";
+	    public const string Issuer = "busach";
 	    public const string Audience = "Everyone";
 	    public static readonly TimeSpan TokenLifetime = TimeSpan.FromDays(30);
     }
