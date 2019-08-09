@@ -12,5 +12,6 @@ namespace Services.Abstractions
 		BaseResponse<User> Get(Guid id);
 		BaseResponse<string> Register(AuthDto user);
 		BaseResponse<Token> Login(AuthDto user);
+		BaseResponse<UserDto> Update(UserDto user);
 	}
 }

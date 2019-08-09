@@ -39,5 +39,13 @@ namespace API.Controllers
 		{
 			return _userService.Login(user);
 		}
+
+		[HttpPut]
+		[Authorize]
+		[Produces("application/json")]
+		public BaseResponse<UserDto> Update([FromBody] UserDto user)
+		{
+			return _userService.Update(user);
+		}
 	}
 }

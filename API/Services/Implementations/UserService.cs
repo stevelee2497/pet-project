@@ -1,4 +1,5 @@
-﻿using DAL.Constants;
+﻿using AutoMapper;
+using DAL.Constants;
 using DAL.Enums;
 using DAL.Exceptions;
 using DAL.Helpers;
@@ -12,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using AutoMapper;
+using Newtonsoft.Json;
 
 namespace Services.Implementations
 {
@@ -103,10 +104,12 @@ namespace Services.Implementations
 				throw new BadRequestException("Vui lòng nhập mật khẩu.");
 			}
 
-			var user = Include(u => u.UserRoles).ThenInclude(ur => ur.Role).FirstOrDefault(u =>
-				u.EntityStatus == EntityStatus.Activated &&
-				u.Email.Equals(authDto.Email, StringComparison.InvariantCultureIgnoreCase)
-			);
+			var user = Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
+				.FirstOrDefault(u =>
+					u.EntityStatus == EntityStatus.Activated &&
+					u.Email.Equals(authDto.Email, StringComparison.InvariantCultureIgnoreCase)
+				);
+
 			if (user == null)
 			{
 				throw new DataNotFoundException("Tài khoản không tồn tại");
@@ -121,6 +124,68 @@ namespace Services.Implementations
 
 			var token = JwtHelper.CreateToken(Mapper.Map<UserDto>(user));
 			return new BaseResponse<Token>(HttpStatusCode.OK, data: token);
+		}
+
+		public BaseResponse<UserDto> Update(UserDto userDto)
+		{
+			var user = Mapper.Map<User>(userDto);
+			var oldUser = Include(u => u.UserRoles).ThenInclude(ur => ur.Role).FirstOrDefault(u => u.Id == user.Id);
+			oldUser = UpdateUserInformationIfChanged(userDto, oldUser);
+
+			UpdateUserRoleIfChanged(oldUser, oldUser.GetRoles, userDto.Roles);
+
+			return new BaseResponse<UserDto>(statusCode: HttpStatusCode.OK, data: userDto);
+		}
+
+		private void UpdateUserRoleIfChanged(User user, string[] oldRoles, string[] newRoles)
+		{
+			// update user's role to admin
+			if (newRoles.Contains(DefaultRole.Admin) && !oldRoles.Contains(DefaultRole.Admin))
+			{
+				var role = _roleService.FirstOrDefault(r => r.Name.Equals(DefaultRole.Admin));
+				_userRoleService.Create(new UserRole {UserId = user.Id, RoleId = role.Id}, out var isSaved);
+				if (!isSaved)
+				{
+					throw new InternalServerErrorException(
+						$"Không thể update role cho user {JsonConvert.SerializeObject(user)}");
+				}
+			}
+
+			// set user's role from admin to user
+			if (!newRoles.Contains(DefaultRole.Admin) && oldRoles.Contains(DefaultRole.Admin))
+			{
+				var isDeleted = _userRoleService.Delete(user.UserRoles
+					.First(ur => ur.EntityStatus == EntityStatus.Activated && ur.Role.Name.Equals(DefaultRole.Admin))
+				);
+				if (!isDeleted)
+				{
+					throw new InternalServerErrorException(
+						$"Không thể update role cho user {JsonConvert.SerializeObject(user)}");
+				}
+			}
+		}
+
+		private User UpdateUserInformationIfChanged(UserDto newUser, User oldUser)
+		{
+			if (oldUser == null)
+			{
+				throw new BadRequestException("Không tồn tại tài khoản này");
+			}
+
+			if (oldUser.DisplayName.Equals(newUser.DisplayName) && (newUser.DisplayName ?? "").Equals(oldUser.DisplayName))
+			{
+				return oldUser;
+			}
+
+			oldUser.AvatarUrl = newUser.AvatarUrl;
+			oldUser.DisplayName = newUser.DisplayName;
+			var updateUserResult = Update(oldUser);
+			if (!updateUserResult)
+			{
+				throw new InternalServerErrorException($"Không thể update cho user {JsonConvert.SerializeObject(newUser)}");
+			}
+
+			return oldUser;
 		}
 	}
 }
