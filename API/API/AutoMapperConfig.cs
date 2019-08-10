@@ -4,7 +4,6 @@ using DAL.Extensions;
 using DAL.Models;
 using Services.DTOs.Input;
 using Services.DTOs.Output;
-using System.Linq;
 
 namespace API
 {
