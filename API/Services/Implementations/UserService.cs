@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DAL.Constants;
-using DAL.Enums;
 using DAL.Exceptions;
+using DAL.Extensions;
 using DAL.Helpers;
 using DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -106,8 +106,7 @@ namespace Services.Implementations
 
 			var user = Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
 				.FirstOrDefault(u =>
-					u.EntityStatus == EntityStatus.Activated &&
-					u.Email.Equals(authDto.Email, StringComparison.InvariantCultureIgnoreCase)
+					u.IsActivated() && u.Email.Equals(authDto.Email, StringComparison.InvariantCultureIgnoreCase)
 				);
 
 			if (user == null)
@@ -131,7 +130,7 @@ namespace Services.Implementations
 			var newUser = Mapper.Map<User>(userInput);
 			var oldUser = Include(u => u.UserRoles).ThenInclude(ur => ur.Role).FirstOrDefault(u => u.Id == userId);
 			oldUser = UpdateUserInformationIfChanged(oldUser, newUser);
-			oldUser = UpdateUserRoleIfChanged(oldUser, oldUser.GetRoles, userInput.Roles);
+			oldUser = UpdateUserRoleIfChanged(oldUser, oldUser.GetRoles(), userInput.Roles);
 			return new BaseResponse<UserOutputDto>(statusCode: HttpStatusCode.OK,
 				data: Mapper.Map<UserOutputDto>(oldUser));
 		}
@@ -182,8 +181,7 @@ namespace Services.Implementations
 			// set userOutput's role from admin to userOutput
 			if (!newRoles.Contains(DefaultRole.Admin) && oldRoles.Contains(DefaultRole.Admin))
 			{
-				var adminUserRole = user.UserRoles
-					.First(ur => ur.EntityStatus == EntityStatus.Activated && ur.Role.Name.Equals(DefaultRole.Admin));
+				var adminUserRole = user.UserRoles.First(ur => ur.IsActivated() && ur.Role.Name.Equals(DefaultRole.Admin));
 				var isDeleted = _userRoleService.Delete(adminUserRole);
 				if (!isDeleted)
 				{

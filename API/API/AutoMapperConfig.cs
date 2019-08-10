@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.Configuration;
-using DAL.Enums;
+using DAL.Extensions;
 using DAL.Models;
 using Services.DTOs.Input;
 using Services.DTOs.Output;
+using System.Linq;
 
 namespace API
 {
@@ -21,10 +21,8 @@ namespace API
 			configuration.CreateMap<User, UserOutputDto>()
 				.ForMember(
 					destination => destination.Roles,
-					map => map.MapFrom(source => source.UserRoles.Where(ur => ur.EntityStatus == EntityStatus.Activated).Select(ur => ur.Role.Name).ToArray())
+					map => map.MapFrom(source => source.GetRoles())
 				);
-
-			configuration.CreateMap<UserOutputDto, User>();
 
 			#endregion
 
