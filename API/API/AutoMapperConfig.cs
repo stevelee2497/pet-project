@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using AutoMapper.Configuration;
 using DAL.Extensions;
 using DAL.Models;
@@ -17,11 +18,10 @@ namespace API
 
 			configuration.CreateMap<UserInputDto, User>();
 
-			configuration.CreateMap<User, UserOutputDto>()
-				.ForMember(
-					destination => destination.Roles,
-					map => map.MapFrom(source => source.GetRoles())
-				);
+			configuration.CreateMap<User, UserOutputDto>().ForMember(
+				destination => destination.Roles,
+				map => map.MapFrom(source => source.GetRoles())
+			);
 
 			#endregion
 
@@ -38,6 +38,30 @@ namespace API
 			configuration.CreateMap<CategoryInputDto, Category>();
 
 			configuration.CreateMap<Category, CategoryOutputDto>();
+
+			#endregion
+
+			#region Book
+
+			configuration.CreateMap<BookInputDto, Book>();
+
+			configuration.CreateMap<Book, BookOutputDto>().ForMember(
+				destination => destination.Author,
+				map => map.MapFrom(source => Mapper.Map<AuthorOutputDto>(source.Author))
+			).ForMember(
+				destination => destination.Owner,
+				map => map.MapFrom(source => Mapper.Map<UserOutputDto>(source.Owner))
+			).ForMember(
+				destination => destination.Categories,
+				map => map.MapFrom(source =>
+					source.BookCategories.Select(x => Mapper.Map<CategoryOutputDto>(x.Category)))
+			).ForMember(
+				destination => destination.Comments,
+				map => map.MapFrom(source => source.Comments.Select(Mapper.Map<CommentOutputDto>))
+			).ForMember(
+				destination => destination.Chapters,
+				map => map.MapFrom(source => source.Chapters.Select(Mapper.Map<ChapterOutputDto>))
+			);
 
 			#endregion
 
