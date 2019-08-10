@@ -1,10 +1,11 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using DAL.Exceptions;
 using DAL.Models;
 using Services.Abstractions;
 using Services.DTOs.Input;
 using Services.DTOs.Output;
+using Services.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,7 +20,13 @@ namespace Services.Implementations
 
 		public BaseResponse<IEnumerable<AuthorOutputDto>> All(IDictionary<string, string> @params)
 		{
-			var authors = Include(author => author.Books).AsEnumerable().Select(Mapper.Map<AuthorOutputDto>);
+			var queries = @params.ToObject<PagingRequest>();
+			var authors = All()
+				.Skip(queries.Limit * (queries.Page - 1))
+				.Take(queries.Limit)
+				.AsEnumerable()
+				.Select(Mapper.Map<AuthorOutputDto>);
+
 			return new BaseResponse<IEnumerable<AuthorOutputDto>>(HttpStatusCode.OK, data: authors);
 		}
 

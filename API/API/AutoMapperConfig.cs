@@ -33,6 +33,14 @@ namespace API
 
 			#endregion
 
+			#region Category
+
+			configuration.CreateMap<CategoryInputDto, Category>();
+
+			configuration.CreateMap<Category, CategoryOutputDto>();
+
+			#endregion
+
 			Mapper.Initialize(configuration);
 		}
 	}
