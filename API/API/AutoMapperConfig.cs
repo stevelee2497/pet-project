@@ -25,6 +25,14 @@ namespace API
 
 			#endregion
 
+			#region Author
+
+			configuration.CreateMap<AuthorInputDto, Author>();
+
+			configuration.CreateMap<Author, AuthorOutputDto>();
+
+			#endregion
+
 			Mapper.Initialize(configuration);
 		}
 	}
