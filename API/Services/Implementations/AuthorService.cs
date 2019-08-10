@@ -17,6 +17,12 @@ namespace Services.Implementations
 		{
 		}
 
+		public BaseResponse<IEnumerable<AuthorOutputDto>> All(IDictionary<string, string> @params)
+		{
+			var authors = Include(author => author.Books).AsEnumerable().Select(Mapper.Map<AuthorOutputDto>);
+			return new BaseResponse<IEnumerable<AuthorOutputDto>>(HttpStatusCode.OK, data: authors);
+		}
+
 		public BaseResponse<bool> CreateAuthor(AuthorInputDto authorInputDto)
 		{
 			if (Contains(x => x.Name.Equals(authorInputDto.Name, StringComparison.InvariantCultureIgnoreCase)))
@@ -67,12 +73,6 @@ namespace Services.Implementations
 			}
 
 			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
-		}
-
-		public BaseResponse<IEnumerable<AuthorOutputDto>> All(IDictionary<string, string> @params)
-		{
-			var authors = Include(author => author.Books).AsEnumerable().Select(Mapper.Map<AuthorOutputDto>);
-			return new BaseResponse<IEnumerable<AuthorOutputDto>>(HttpStatusCode.OK, data: authors);
 		}
 	}
 }
