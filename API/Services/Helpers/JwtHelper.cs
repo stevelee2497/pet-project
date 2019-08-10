@@ -18,17 +18,17 @@ namespace Services.Helpers
 
 		private static readonly JwtSecurityTokenHandler Handler = new JwtSecurityTokenHandler();
 
-		public static Token CreateToken(UserDto user)
+		public static Token CreateToken(UserOutputDto userOutput)
 		{
 			var header = new JwtHeader(new SigningCredentials(SecretKey, SecurityAlgorithms.HmacSha256));
 			var payload = new JwtPayload(
 				Jwt.Issuer,
 				Jwt.Audience,
-				user.Roles.Select(role => new Claim(ClaimTypes.Role, role)),
+				userOutput.Roles.Select(role => new Claim(ClaimTypes.Role, role)),
 				DateTime.UtcNow,
 				DateTime.UtcNow + Jwt.TokenLifetime
 			);
-			var dict = DictionaryHelper.ToDictionary(user);
+			var dict = DictionaryHelper.ToDictionary(userOutput);
 			foreach (var (key, value) in dict)
 			{
 				payload.Add(key, value);
@@ -36,7 +36,7 @@ namespace Services.Helpers
 
 			var token = new JwtSecurityToken(header, payload);
 
-			var refreshToken = Guid.NewGuid().ToString().Replace("-", "") + "." + user.Id;
+			var refreshToken = Guid.NewGuid().ToString().Replace("-", "") + "." + userOutput.Id;
 			var accessToken = new Token
 			{
 				AccessToken = Handler.WriteToken(token),
@@ -85,7 +85,7 @@ namespace Services.Helpers
 				return false;
 			}
 
-			// If token doesn't contain user id, it's considered invalid
+			// If token doesn't contain userOutput id, it's considered invalid
 			var user = DictionaryHelper.ToObject<User>(jwtToken.Payload.ToDictionary(p => p.Key, p => p.Value));
 
 			if (user == null)
