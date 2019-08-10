@@ -27,8 +27,7 @@ namespace DAL.Models
 		public Guid AuthorId { get; set; }
 		public virtual Author Author { get; set; }
 
-		public Guid CategoryId { get; set; }
-		public virtual Category	Category { get; set; }
+		public virtual ICollection<BookCategory> BookCategories { get; set; }
 
 		public virtual ICollection<Chapter> Chapters { get; set; }
 

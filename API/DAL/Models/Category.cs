@@ -8,6 +8,6 @@ namespace DAL.Models
 	{
 		public string Name { get; set; }
 
-		public virtual ICollection<Book> Books { get; set; }
+		public virtual ICollection<BookCategory> BookCategories { get; set; }
 	}
 }
