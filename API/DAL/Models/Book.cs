@@ -15,6 +15,8 @@ namespace DAL.Models
 		[DefaultValue(0)]
 		public int ReadCount { get; set; }
 
+		public bool Finished { get; set; }
+
 		public string BookCoverUrl { get; set; }
 
 		[DefaultValue(0)]

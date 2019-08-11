@@ -6,6 +6,8 @@
 
 		public string Description { get; set; }
 
+		public bool Finished { get; set; }
+
 		public string BookCoverUrl { get; set; }
 
 		public string OwnerId { get; set; }

@@ -12,6 +12,8 @@ namespace Services.DTOs.Output
 
 		public int ReadCount { get; set; }
 
+		public bool Finished { get; set; }
+
 		public string Status { get; set; }
 
 		public string BookCoverUrl { get; set; }

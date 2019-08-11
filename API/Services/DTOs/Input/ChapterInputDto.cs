@@ -8,7 +8,7 @@ namespace Services.DTOs.Input
 		[Required(ErrorMessage = "Vui lòng nhập tên chương")]
 		public string Name { get; set; }
 
-		[Required(ErrorMessage = "Vui lòng nhập số thứ tự của chương")]
+		[Range(1, int.MaxValue, ErrorMessage = "Vui lòng nhập số thứ tự của chương (value >= 1)")]
 		public int ChapterIndex { get; set; }
 
 		[Required(ErrorMessage = "Vui lòng nhập nội dung chương")]
