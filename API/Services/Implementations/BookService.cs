@@ -102,7 +102,7 @@ namespace Services.Implementations
 			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
 		}
 
-		public BaseResponse<bool> DeleteBook(Guid id, BookInputDto bookInputDto)
+		public BaseResponse<bool> DeleteBook(Guid id)
 		{
 			var book = Find(id);
 			if (book == null)

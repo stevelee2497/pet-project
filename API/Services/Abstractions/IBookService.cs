@@ -12,6 +12,6 @@ namespace Services.Abstractions
 		BaseResponse<BookOutputDto> GetBook(Guid id);
 		BaseResponse<BookOutputDto> CreateBook(BookInputDto bookInputDto);
 		BaseResponse<bool> UpdateBook(Guid id, BookInputDto bookInputDto);
-		BaseResponse<bool> DeleteBook(Guid id, BookInputDto bookInputDto);
+		BaseResponse<bool> DeleteBook(Guid id);
 	}
 }

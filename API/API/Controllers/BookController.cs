@@ -11,7 +11,7 @@ namespace API.Controllers
 	[Route("api/books")]
 	public class BookController
 	{
-		private IBookService _bookService;
+		private readonly IBookService _bookService;
 
 		public BookController(IBookService bookService)
 		{
@@ -53,9 +53,9 @@ namespace API.Controllers
 		[HttpDelete("{id}")]
 		[Authorize]
 		[Produces("application/json")]
-		public BaseResponse<bool> DeleteBook(Guid id, [FromBody] BookInputDto bookInputDto)
+		public BaseResponse<bool> DeleteBook(Guid id)
 		{
-			return _bookService.DeleteBook(id, bookInputDto);
+			return _bookService.DeleteBook(id);
 		}
 	}
 }
