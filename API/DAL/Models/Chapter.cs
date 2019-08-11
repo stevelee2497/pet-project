@@ -6,6 +6,8 @@ namespace DAL.Models
 	[Table("Chapter")]
 	public class Chapter : BaseEntity
 	{
+		public int ChapterIndex { get; set; }
+
 		public string Name { get; set; }
 
 		public string Content { get; set; }
