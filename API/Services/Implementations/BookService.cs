@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using DAL.Exceptions;
 using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using Services.Abstractions;
 using Services.DTOs.Input;
 using Services.DTOs.Output;
@@ -8,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using DAL.Exceptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Services.Implementations
 {
@@ -82,14 +82,74 @@ namespace Services.Implementations
 			return new BaseResponse<BookOutputDto>(HttpStatusCode.OK, data: Mapper.Map<BookOutputDto>(book));
 		}
 
-		public BaseResponse<BookOutputDto> UpdateBook(Guid id, BookInputDto bookInputDto)
+		public BaseResponse<bool> UpdateBook(Guid id, BookInputDto bookInputDto)
 		{
-			throw new NotImplementedException();
+			var oldBook = Find(id);
+			var newBook = Mapper.Map<Book>(bookInputDto);
+			if (oldBook == null)
+			{
+				throw new BadRequestException($"Không tìm thấy tác phẩm {id}");
+			}
+
+			oldBook = UpdateBookInformation(oldBook, newBook, out var isSaved);
+			oldBook = UpdateBookCategories(oldBook, bookInputDto.CategoryIds.Select(Guid.Parse).ToList(), ref isSaved);
+
+			if (!isSaved)
+			{
+				throw new InternalServerErrorException($"Không thể update cho tác phẩm {oldBook.Name}");
+			}
+
+			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
 		}
 
 		public BaseResponse<bool> DeleteBook(Guid id, BookInputDto bookInputDto)
 		{
-			throw new NotImplementedException();
+			var book = Find(id);
+			if (book == null)
+			{
+				throw new BadRequestException($"Không tìm thấy tác phẩm {id}");
+			}
+
+			var isDeleted = Delete(book);
+			if (!isDeleted)
+			{
+				throw new InternalServerErrorException($"Không thể delete tác phẩm {book.Name}");
+			}
+
+			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
+		}
+
+		private Book UpdateBookInformation(Book oldBook, Book newBook, out bool isSaved)
+		{
+			oldBook.Name = newBook.Name;
+			oldBook.Description = newBook.Description;
+			oldBook.BookCoverUrl = newBook.BookCoverUrl;
+			oldBook.AuthorId = newBook.AuthorId;
+			isSaved = Update(oldBook);
+			return oldBook;
+		}
+
+		private Book UpdateBookCategories(Book oldBook, List<Guid> newCategoryIds, ref bool isSaved)
+		{
+			var oldBookCategories = _bookCategoryService.Where(x => x.BookId == oldBook.Id).ToList();
+
+			// create new book - category ids
+			var newIdsAdded = newCategoryIds.Where(id => oldBookCategories.All(bc => bc.CategoryId != id)).ToList();
+			if (newIdsAdded.Any())
+			{
+				_bookCategoryService.CreateMany(
+					newIdsAdded.Select(id => new BookCategory {CategoryId = id, BookId = oldBook.Id}), out isSaved
+				);
+			}
+
+			// delete old book - category ids
+			var oldIdsRemoved = oldBookCategories.Where(bc => !newCategoryIds.Contains(bc.CategoryId)).ToList();
+			if (oldIdsRemoved.Any())
+			{
+				_bookCategoryService.Delete(oldIdsRemoved, out isSaved);
+			}
+
+			return oldBook;
 		}
 	}
 }

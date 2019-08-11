@@ -45,7 +45,7 @@ namespace API.Controllers
 		[HttpPut("{id}")]
 		[Authorize]
 		[Produces("application/json")]
-		public BaseResponse<BookOutputDto> UpdateBook(Guid id, [FromBody] BookInputDto bookInputDto)
+		public BaseResponse<bool> UpdateBook(Guid id, [FromBody] BookInputDto bookInputDto)
 		{
 			return _bookService.UpdateBook(id, bookInputDto);
 		}
