@@ -65,6 +65,16 @@ namespace API
 
 			#endregion
 
+			#region Chapter
+
+			configuration.CreateMap<ChapterInputDto, Chapter>();
+
+			configuration.CreateMap<Chapter, ChapterOutputDto>();
+
+			configuration.CreateMap<Chapter, ChapterDetailOutputDto>();
+
+			#endregion
+
 			Mapper.Initialize(configuration);
 		}
 	}
