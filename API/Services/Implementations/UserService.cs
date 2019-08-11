@@ -51,16 +51,6 @@ namespace Services.Implementations
 
 		public BaseResponse<string> Register(AuthDto authDto)
 		{
-			if (string.IsNullOrEmpty(authDto.Email))
-			{
-				throw new BadRequestException("Vui lòng nhập tên tài khoản.");
-			}
-
-			if (string.IsNullOrEmpty(authDto.Password))
-			{
-				throw new BadRequestException("Vui lòng nhập mật khẩu.");
-			}
-
 			if (FirstOrDefault(u => u.Email.Equals(authDto.Email, StringComparison.InvariantCultureIgnoreCase)) != null)
 			{
 				throw new BadRequestException("Tài khoản đã tồn tại.");
@@ -94,16 +84,6 @@ namespace Services.Implementations
 
 		public BaseResponse<Token> Login(AuthDto authDto)
 		{
-			if (string.IsNullOrEmpty(authDto.Email))
-			{
-				throw new BadRequestException("Vui lòng nhập tên tài khoản.");
-			}
-
-			if (string.IsNullOrEmpty(authDto.Password))
-			{
-				throw new BadRequestException("Vui lòng nhập mật khẩu.");
-			}
-
 			var user = Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
 				.FirstOrDefault(u =>
 					u.IsActivated() && u.Email.Equals(authDto.Email, StringComparison.InvariantCultureIgnoreCase)
