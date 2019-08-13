@@ -17,11 +17,13 @@ namespace Services.Implementations
 {
 	public class BookService : EntityService<Book>, IBookService
 	{
+		private readonly ILikeService _likeService;
 		private readonly IBookCategoryService _bookCategoryService;
 
-		public BookService(IBookCategoryService bookCategoryService)
+		public BookService(IBookCategoryService bookCategoryService, ILikeService likeService)
 		{
 			_bookCategoryService = bookCategoryService;
+			_likeService = likeService;
 		}
 
 		public BaseResponse<IEnumerable<BookOutputDto>> All(IDictionary<string, string> @params)
@@ -31,7 +33,7 @@ namespace Services.Implementations
 			return new BaseResponse<IEnumerable<BookOutputDto>>(HttpStatusCode.OK, data: books);
 		}
 
-		public BaseResponse<BookOutputDto> GetBook(Guid id)
+		public BaseResponse<BookOutputDto> GetBook(Guid id, Guid userId)
 		{
 			var book = Include(x => x.Author)
 				.Include(x => x.Owner)
@@ -43,7 +45,11 @@ namespace Services.Implementations
 				throw new BadRequestException($"Không tìm thấy tác phẩm với id: {id}");
 			}
 
-			return new BaseResponse<BookOutputDto>(HttpStatusCode.OK, data: Mapper.Map<BookOutputDto>(book));
+			var bookOutputDto = Mapper.Map<BookOutputDto>(book);
+			var liked = _likeService.FirstOrDefault(x => x.BookId == id && x.UserId == userId)?.IsActivated() ?? false;
+			bookOutputDto.Liked = liked;
+
+			return new SuccessResponse<BookOutputDto>(bookOutputDto);
 		}
 
 		public BaseResponse<BookOutputDto> CreateBook(BookInputDto bookInputDto)

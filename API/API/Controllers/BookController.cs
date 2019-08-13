@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using Services.DTOs.Input;
 using Services.DTOs.Output;
+using Services.Extensions;
 
 namespace API.Controllers
 {
 	[Route("api/books")]
-	public class BookController
+	public class BookController : Controller
 	{
 		private readonly IBookService _bookService;
 
@@ -31,7 +32,7 @@ namespace API.Controllers
 		[Produces("application/json")]
 		public BaseResponse<BookOutputDto> GetBook(Guid id)
 		{
-			return _bookService.GetBook(id);
+			return _bookService.GetBook(id, User.GetUserId());
 		}
 
 		[HttpPost]

@@ -20,11 +20,13 @@ namespace Services.DTOs.Output
 
 		public int LikedCount { get; set; }
 
+		public bool Liked { get; set; }
+
 		public AuthorOutputDto Author { get; set; }
 
-		public IEnumerable<CategoryOutputDto> Categories { get; set; }
-
 		public UserOutputDto Owner { get; set; }
+
+		public IEnumerable<CategoryOutputDto> Categories { get; set; }
 
 		public IEnumerable<ChapterOutputDto> Chapters { get; set; }
 
