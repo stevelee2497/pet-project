@@ -12,6 +12,8 @@ namespace DAL.Models
 
 		public string Content { get; set; }
 
+		public int ReadCount { get; set; }
+
 		public Guid BookId { get; set; }
 		public virtual Book Book { get; set; }
 	}

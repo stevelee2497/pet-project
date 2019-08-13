@@ -149,13 +149,13 @@ namespace Services.Implementations
 					return books.OrderByDescending(b => b.CreatedTime);
 
 				case BookType.RecommendingBooks:
-					throw new BadRequestException($"Không tồn tại filter {bookType}");
+					return books.OrderByDescending(b => b.LikedCount);
 
 				case BookType.TrendingBooks:
 					return books.OrderByDescending(b => b.ReadCount);
 
 				case BookType.FeaturingBooks:
-					throw new BadRequestException($"Không tồn tại filter {bookType}");
+					return books.OrderByDescending(b => b.AverageRating);
 
 				default:
 					throw new BadRequestException($"Không tồn tại filter {bookType}");

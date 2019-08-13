@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using DAL.Exceptions;
 using DAL.Extensions;
 
@@ -15,6 +16,13 @@ namespace Services.Implementations
 {
 	public class ChapterService : EntityService<Chapter>, IChapterService
 	{
+		private IBookService _bookService;
+
+		public ChapterService(IBookService bookService)
+		{
+			_bookService = bookService;
+		}
+
 		public BaseResponse<IEnumerable<ChapterOutputDto>> All(IDictionary<string, string> @params)
 		{
 			var chapters = Where(@params).Select(Mapper.Map<ChapterOutputDto>);
@@ -28,6 +36,8 @@ namespace Services.Implementations
 			{
 				throw new BadRequestException($"Không tìm thấy chương {id}");
 			}
+
+			Task.Run(() => UpdateReadCount(chapter));
 
 			return new BaseResponse<ChapterDetailOutputDto>(HttpStatusCode.OK, data: Mapper.Map<ChapterDetailOutputDto>(chapter));
 		}
@@ -102,6 +112,15 @@ namespace Services.Implementations
 			return linqQuery.OrderBy(chapter => chapter.ChapterIndex)
 				.Skip(queries.Limit * (queries.Page - 1))
 				.Take(queries.Limit);
+		}
+
+		private void UpdateReadCount(Chapter chapter)
+		{
+			chapter.ReadCount += 1;
+			Update(chapter);
+			var book = _bookService.Find(chapter.Id);
+			book.ReadCount += 1;
+			_bookService.Update(book);
 		}
 	}
 }

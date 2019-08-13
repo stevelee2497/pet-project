@@ -35,5 +35,7 @@ namespace DAL.Models
 		public virtual ICollection<BookSelf> BookSelves { get; set; }
 		
 		public virtual ICollection<Subscribe> Subscribes { get; set; }
+
+		public virtual ICollection<Like> Likes { get; set; }
 	}
 }

@@ -22,6 +22,9 @@ namespace DAL.Models
 		[DefaultValue(0)]
 		public int LikedCount { get; set; }
 
+		[DefaultValue(0.0)]
+		public double AverageRating { get; set; }
+
 		public Guid OwnerId { get; set; }
 		[ForeignKey("OwnerId")]
 		public virtual User Owner { get; set; }
@@ -40,5 +43,7 @@ namespace DAL.Models
 		public virtual ICollection<Comment> Comments { get; set; }
 
 		public virtual ICollection<Subscribe> Subscribes { get; set; }
+
+		public virtual ICollection<Like> Likes { get; set; }
 	}
 }
