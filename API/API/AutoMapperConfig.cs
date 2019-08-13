@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using AutoMapper.Configuration;
+using DAL.Enums;
 using DAL.Extensions;
 using DAL.Models;
 using Services.DTOs.Input;
@@ -72,6 +73,17 @@ namespace API
 			configuration.CreateMap<Chapter, ChapterOutputDto>();
 
 			configuration.CreateMap<Chapter, ChapterDetailOutputDto>();
+
+			#endregion
+
+			#region Like
+
+			configuration.CreateMap<LikeInputDto, Like>();
+
+			configuration.CreateMap<Like, LikeOutputDto>().ForMember(
+				destination => destination.Liked,
+				map => map.MapFrom(source => source.EntityStatus == EntityStatus.Activated)
+			);
 
 			#endregion
 
