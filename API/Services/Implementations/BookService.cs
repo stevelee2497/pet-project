@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using DAL.Constants;
+using DAL.Extensions;
 
 namespace Services.Implementations
 {
@@ -24,14 +26,7 @@ namespace Services.Implementations
 
 		public BaseResponse<IEnumerable<BookOutputDto>> All(IDictionary<string, string> @params)
 		{
-			var queries = @params.ToObject<PagingRequest>();
-			var books = Include(x => x.Author)
-				.Include(x => x.Owner)
-				.Include(x => x.BookCategories).ThenInclude(x => x.Category)
-				.Skip(queries.Limit * (queries.Page - 1))
-				.Take(queries.Limit)
-				.AsEnumerable()
-				.Select(Mapper.Map<BookOutputDto>);
+			var books = Where(@params).Select(Mapper.Map<BookOutputDto>);
 
 			return new BaseResponse<IEnumerable<BookOutputDto>>(HttpStatusCode.OK, data: books);
 		}
@@ -117,6 +112,54 @@ namespace Services.Implementations
 			}
 
 			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
+		}
+
+		private IEnumerable<Book> Where(IDictionary<string, string> @params)
+		{
+			var queries = @params.ToObject<BookRequest>();
+
+			var linqQuery = Where(b => b.IsActivated());
+			if (queries.CategoryId != Guid.Empty)
+			{
+				linqQuery = _bookCategoryService.Include(bc => bc.Book)
+					.Where(bc => bc.CategoryId == queries.CategoryId && bc.IsActivated() && bc.Book.IsActivated())
+					.Select(bc => bc.Book);
+			}
+
+			if (queries.AuthorId != Guid.Empty)
+			{
+				linqQuery = linqQuery.Where(book => book.AuthorId == queries.AuthorId);
+			}
+
+			if (!string.IsNullOrEmpty(queries.BookType))
+			{
+				linqQuery = FilterBookType(linqQuery, queries.BookType);
+			}
+
+			return linqQuery
+				.Skip(queries.Limit * (queries.Page - 1))
+				.Take(queries.Limit);
+		}
+
+		private IQueryable<Book> FilterBookType(IQueryable<Book> books, string bookType)
+		{
+			switch (bookType)
+			{
+				case BookType.NewBooks:
+					return books.OrderByDescending(b => b.CreatedTime);
+
+				case BookType.RecommendingBooks:
+					throw new BadRequestException($"Không tồn tại filter {bookType}");
+
+				case BookType.TrendingBooks:
+					return books.OrderByDescending(b => b.ReadCount);
+
+				case BookType.FeaturingBooks:
+					throw new BadRequestException($"Không tồn tại filter {bookType}");
+
+				default:
+					throw new BadRequestException($"Không tồn tại filter {bookType}");
+			}
 		}
 
 		private Book UpdateBookInformation(Book oldBook, Book newBook, out bool isSaved)
