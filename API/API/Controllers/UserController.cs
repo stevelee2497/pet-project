@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace API.Controllers
 		[HttpGet]
 		[Authorize]
 		[Produces("application/json")]
-		public BaseResponse<List<UserDto>> All([FromHeader]IDictionary<string, string> @params)
+		public BaseResponse<List<UserOutputDto>> All([FromHeader] IDictionary<string, string> @params)
 		{
 			return _userService.All(@params);
 		}
@@ -40,12 +41,12 @@ namespace API.Controllers
 			return _userService.Login(user);
 		}
 
-		[HttpPut]
+		[HttpPut("{id}")]
 		[Authorize]
 		[Produces("application/json")]
-		public BaseResponse<UserDto> Update([FromBody] UserDto user)
+		public BaseResponse<UserOutputDto> Update(Guid id, [FromBody] UserInputDto userInput)
 		{
-			return _userService.Update(user);
+			return _userService.Update(id, userInput);
 		}
 	}
 }

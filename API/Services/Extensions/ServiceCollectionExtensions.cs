@@ -6,12 +6,12 @@ using Services.Abstractions;
 
 namespace Services.Extensions
 {
-	public static class ServiceCollectionExtension
+	public static class ServiceCollectionExtensions
 	{
 		public static IServiceCollection AddWebDataLayer(this IServiceCollection services)
 		{
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-			var interfaceAssemblies = new[] { typeof(ServiceCollectionExtension).GetTypeInfo().Assembly, typeof(IService).GetTypeInfo().Assembly };
+			var interfaceAssemblies = new[] { typeof(ServiceCollectionExtensions).GetTypeInfo().Assembly, typeof(IService).GetTypeInfo().Assembly };
 
 			foreach (var assembly in assemblies.Where(m => m.FullName.Contains("Services")))
 			{

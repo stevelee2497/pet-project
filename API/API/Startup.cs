@@ -38,7 +38,11 @@ namespace API
 			services.AddSingleton(Configuration);
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-			services.AddMvc(options => options.Filters.Add<JsonExceptionFilter>())
+			services.AddMvc(options =>
+				{
+					options.Filters.Add<JsonExceptionFilter>();
+					options.Filters.Add(typeof(ValidatorActionFilter));
+				})
 				.AddJsonOptions(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Include);
 
 			services.AddWebDataLayer();

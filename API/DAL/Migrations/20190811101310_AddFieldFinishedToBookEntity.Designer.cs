@@ -4,14 +4,16 @@ using DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190811101310_AddFieldFinishedToBookEntity")]
+    partial class AddFieldFinishedToBookEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +45,6 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("AuthorId");
-
-                    b.Property<double>("AverageRating");
 
                     b.Property<string>("BookCoverUrl");
 
@@ -160,8 +160,6 @@ namespace DAL.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ReadCount");
-
                     b.Property<DateTimeOffset>("UpdatedTime");
 
                     b.HasKey("Id");
@@ -195,30 +193,6 @@ namespace DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comment");
-                });
-
-            modelBuilder.Entity("DAL.Models.Like", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("BookId");
-
-                    b.Property<DateTimeOffset>("CreatedTime");
-
-                    b.Property<int>("EntityStatus");
-
-                    b.Property<DateTimeOffset>("UpdatedTime");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("DAL.Models.Rate", b =>
@@ -402,18 +376,6 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.Models.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.Models.Like", b =>
-                {
-                    b.HasOne("DAL.Models.Book", "Book")
-                        .WithMany("Likes")
-                        .HasForeignKey("BookId");
-
-                    b.HasOne("DAL.Models.User", "User")
-                        .WithMany("Likes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -1,9 +1,7 @@
-﻿namespace Services.DTOs.Output
+﻿namespace Services.DTOs.Input
 {
-	public class UserDto
+	public class UserInputDto
 	{
-		public string Id { get; set; }
-
 		public string Email { get; set; }
 
 		public string DisplayName { get; set; }

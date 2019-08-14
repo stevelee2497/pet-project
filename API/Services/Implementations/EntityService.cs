@@ -46,7 +46,7 @@ namespace Services.Implementations
             {
                 if (baseEntity.EntityStatus == EntityStatus.Deleted)
                 {
-                    throw new BadRequestException(CommonConstant.Error.BadRequest);
+                    throw new BadRequestException(Error.BadRequest);
                 }
             }
             return response;
@@ -100,12 +100,12 @@ namespace Services.Implementations
             }
             else
             {
-                throw new BadRequestException(CommonConstant.Error.BadRequest);
+                throw new BadRequestException(Error.BadRequest);
             }
             var isUpdated = Update(entity);
             if (!isUpdated)
             {
-                throw new InternalServerErrorException(CommonConstant.Error.InternalServerError);
+                throw new InternalServerErrorException(Error.InternalServerError);
             }
             return entity;
         }

@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace Services.Extensions
 {
-	public static class ClaimsExt
+	public static class ClaimsExtensions
 	{
 		public static Guid GetUserId(this IEnumerable<Claim> claims)
 			=> Guid.TryParse(GetClaimValue(claims, ClaimTypes.Sid), out Guid id)

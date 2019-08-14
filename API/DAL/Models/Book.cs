@@ -15,10 +15,15 @@ namespace DAL.Models
 		[DefaultValue(0)]
 		public int ReadCount { get; set; }
 
+		public bool Finished { get; set; }
+
 		public string BookCoverUrl { get; set; }
 
 		[DefaultValue(0)]
 		public int LikedCount { get; set; }
+
+		[DefaultValue(0.0)]
+		public double AverageRating { get; set; }
 
 		public Guid OwnerId { get; set; }
 		[ForeignKey("OwnerId")]
@@ -27,8 +32,7 @@ namespace DAL.Models
 		public Guid AuthorId { get; set; }
 		public virtual Author Author { get; set; }
 
-		public Guid CategoryId { get; set; }
-		public virtual Category	Category { get; set; }
+		public virtual ICollection<BookCategory> BookCategories { get; set; }
 
 		public virtual ICollection<Chapter> Chapters { get; set; }
 
@@ -39,5 +43,7 @@ namespace DAL.Models
 		public virtual ICollection<Comment> Comments { get; set; }
 
 		public virtual ICollection<Subscribe> Subscribes { get; set; }
+
+		public virtual ICollection<Like> Likes { get; set; }
 	}
 }
