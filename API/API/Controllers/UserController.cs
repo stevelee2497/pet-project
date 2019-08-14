@@ -21,14 +21,14 @@ namespace API.Controllers
 		[HttpGet]
 		[Authorize]
 		[Produces("application/json")]
-		public BaseResponse<List<User>> All([FromHeader]IDictionary<string, string> @params)
+		public BaseResponse<List<UserDto>> All([FromHeader]IDictionary<string, string> @params)
 		{
 			return _userService.All(@params);
 		}
 
 		[HttpPost("register")]
 		[Produces("application/json")]
-		public BaseResponse<Token> Register([FromBody] AuthDto user)
+		public BaseResponse<string> Register([FromBody] AuthDto user)
 		{
 			return _userService.Register(user);
 		}
@@ -38,6 +38,14 @@ namespace API.Controllers
 		public BaseResponse<Token> Login([FromBody] AuthDto user)
 		{
 			return _userService.Login(user);
+		}
+
+		[HttpPut]
+		[Authorize]
+		[Produces("application/json")]
+		public BaseResponse<UserDto> Update([FromBody] UserDto user)
+		{
+			return _userService.Update(user);
 		}
 	}
 }

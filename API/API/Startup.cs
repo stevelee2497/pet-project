@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Repositories.Helpers;
 using Services.Extensions;
 using Services.Helpers;
@@ -27,6 +28,8 @@ namespace API
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
+
+			AutoMapperConfig.RegisterModel();
 		}
 
 		public void ConfigureServices(IServiceCollection services)
@@ -42,7 +45,7 @@ namespace API
 
 			services.AddDbContext<DatabaseContext>(options =>
 			{
-				options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "Server API", Version = "v1"}); });
@@ -71,6 +74,15 @@ namespace API
 			});
 
 			app.UseMvc();
+
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+			{
+				Formatting = Formatting.Indented,
+				DefaultValueHandling = DefaultValueHandling.Ignore,
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+				ContractResolver = new CamelCasePropertyNamesContractResolver()
+			};
+
 			DbInitializer.DbInitializer.Seed(app.ApplicationServices);
 		}
 	}

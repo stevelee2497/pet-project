@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Services.DTOs.Output;
 
 namespace Services.Helpers
 {
@@ -17,13 +18,13 @@ namespace Services.Helpers
 
 		private static readonly JwtSecurityTokenHandler Handler = new JwtSecurityTokenHandler();
 
-		public static Token CreateToken(User user, params string[] roles)
+		public static Token CreateToken(UserDto user)
 		{
 			var header = new JwtHeader(new SigningCredentials(SecretKey, SecurityAlgorithms.HmacSha256));
 			var payload = new JwtPayload(
 				Jwt.Issuer,
 				Jwt.Audience,
-				roles.Select(role => new Claim(ClaimTypes.Role, role)),
+				user.Roles.Select(role => new Claim(ClaimTypes.Role, role)),
 				DateTime.UtcNow,
 				DateTime.UtcNow + Jwt.TokenLifetime
 			);
@@ -50,10 +51,6 @@ namespace Services.Helpers
 		{
 			options.DefaultAuthenticateScheme = Jwt.DefaultScheme;
 			options.DefaultChallengeScheme = Jwt.DefaultScheme;
-		}
-
-		public static void AddRefreshToken(string refreshToken)
-		{
 		}
 
 		public static void ConfigureJwtBearerOptions(JwtBearerOptions options)

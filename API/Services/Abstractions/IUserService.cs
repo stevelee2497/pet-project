@@ -8,10 +8,10 @@ namespace Services.Abstractions
 {
 	public interface IUserService : IEntityService<User>
 	{
-		BaseResponse<List<User>> All(IDictionary<string, string> @params);
-		BaseResponse<User> Create(User user);
+		BaseResponse<List<UserDto>> All(IDictionary<string, string> @params);
 		BaseResponse<User> Get(Guid id);
-		BaseResponse<Token> Register(AuthDto user);
+		BaseResponse<string> Register(AuthDto user);
 		BaseResponse<Token> Login(AuthDto user);
+		BaseResponse<UserDto> Update(UserDto user);
 	}
 }

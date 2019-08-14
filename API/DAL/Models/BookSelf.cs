@@ -8,7 +8,7 @@ namespace DAL.Models
 	{
 		public string LastChapterUrl { get; set; }
 
-		public Guid BookId { get; set; }
+		public Guid? BookId { get; set; }
 		public virtual Book Book { get; set; }
 
 

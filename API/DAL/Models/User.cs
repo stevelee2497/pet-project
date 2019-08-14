@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using DAL.Enums;
 
 namespace DAL.Models
 {
@@ -17,6 +19,11 @@ namespace DAL.Models
 		[Required]
 		public byte[] PasswordHash { get; set; }
 
+		[Required]
+		public string DisplayName { get; set; }
+
+		public string AvatarUrl { get; set; }
+
 		public DateTimeOffset? AllowTokensSince { get; set; }
 
 		public virtual ICollection<UserRole> UserRoles { get; set; }
@@ -30,5 +37,9 @@ namespace DAL.Models
 		public virtual ICollection<BookSelf> BookSelves { get; set; }
 		
 		public virtual ICollection<Subscribe> Subscribes { get; set; }
+
+		public string[] GetRoles => UserRoles.Where(ur => ur.EntityStatus == EntityStatus.Activated)
+			.Select(ur => ur.Role.Name)
+			.ToArray();
 	}
 }
