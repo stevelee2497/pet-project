@@ -34,6 +34,14 @@ namespace API.Controllers
 			return _categoryService.CreateCategory(categoryInputDto);
 		}
 
+		[HttpPost("import")]
+		[Authorize]
+		[Produces("application/json")]
+		public BaseResponse<int> CreateManyCategories([FromBody] string[] categories)
+		{
+			return _categoryService.CreateManyCategories(categories);
+		}
+
 		[HttpPut("{id}")]
 		[Authorize]
 		[Produces("application/json")]

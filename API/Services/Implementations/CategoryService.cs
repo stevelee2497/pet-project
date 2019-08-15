@@ -37,6 +37,20 @@ namespace Services.Implementations
 			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
 		}
 
+		public BaseResponse<int> CreateManyCategories(string[] categories)
+		{
+			var existedCategories = All().Select(c => c.Name);
+			var nonExistedCategories = categories.Where(c => !existedCategories.Contains(c)).ToList();
+
+			CreateMany(nonExistedCategories.Select(c => new Category {Name = c}), out var isSaved);
+			if (!isSaved)
+			{
+				throw new BadRequestException($"Không thể import categories");
+			}
+
+			return new SuccessResponse<int>(nonExistedCategories.Count);
+		}
+
 		public BaseResponse<bool> UpdateCategory(Guid id, CategoryInputDto categoryInputDto)
 		{
 			var category = Find(id);
