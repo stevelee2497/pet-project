@@ -18,12 +18,14 @@ namespace Services.Implementations
 	public class BookService : EntityService<Book>, IBookService
 	{
 		private readonly ILikeService _likeService;
+		private readonly ICategoryService _categoryService;
 		private readonly IBookCategoryService _bookCategoryService;
 
-		public BookService(IBookCategoryService bookCategoryService, ILikeService likeService)
+		public BookService(IBookCategoryService bookCategoryService, ILikeService likeService, ICategoryService categoryService)
 		{
 			_bookCategoryService = bookCategoryService;
 			_likeService = likeService;
+			_categoryService = categoryService;
 		}
 
 		public BaseResponse<IEnumerable<BookOutputDto>> All(IDictionary<string, string> @params)
@@ -81,6 +83,26 @@ namespace Services.Implementations
 			book.BookCategories = bookCategories as ICollection<BookCategory>;
 
 			return new BaseResponse<BookOutputDto>(HttpStatusCode.OK, data: Mapper.Map<BookOutputDto>(book));
+		}
+
+		public BaseResponse<IEnumerable<BookOutputDto>> CreateMany(IEnumerable<BookInputDto> booksInputDto)
+		{
+			var existedBooks = Where(b =>
+				booksInputDto.Any(dto => dto.Name.Equals(b.Name, StringComparison.InvariantCultureIgnoreCase)));
+			var nonExistedBooks = booksInputDto.Where(dto =>
+				existedBooks.All(book => !book.Name.Equals(dto.Name, StringComparison.InvariantCultureIgnoreCase)));
+			var createdBooks = CreateMany(nonExistedBooks.Select(Mapper.Map<Book>), out var isSaved);
+			if (!isSaved)
+			{
+				throw new BadRequestException($"Không thể import books");
+			}
+
+			// TODO: import categories for created books
+			var categories = _categoryService.All();
+
+			// TODO: import authors for created books
+
+			return new SuccessResponse<IEnumerable<BookOutputDto>>(createdBooks.Select(Mapper.Map<BookOutputDto>));
 		}
 
 		public BaseResponse<bool> UpdateBook(Guid id, BookInputDto bookInputDto)
