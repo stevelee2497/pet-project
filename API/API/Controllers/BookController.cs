@@ -48,7 +48,8 @@ namespace API.Controllers
 		[Produces("application/json")]
 		public BaseResponse<IEnumerable<BookOutputDto>> CreateMany([FromBody] IEnumerable<BookInputDto> booksInputDto)
 		{
-			return _bookService.CreateMany(booksInputDto);
+			var userId = User.GetUserId();
+			return _bookService.CreateMany(userId, booksInputDto);
 		}
 
 		[HttpPut("{id}")]

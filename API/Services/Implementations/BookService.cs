@@ -18,14 +18,12 @@ namespace Services.Implementations
 	public class BookService : EntityService<Book>, IBookService
 	{
 		private readonly ILikeService _likeService;
-		private readonly ICategoryService _categoryService;
 		private readonly IBookCategoryService _bookCategoryService;
 
-		public BookService(IBookCategoryService bookCategoryService, ILikeService likeService, ICategoryService categoryService)
+		public BookService(IBookCategoryService bookCategoryService, ILikeService likeService)
 		{
 			_bookCategoryService = bookCategoryService;
 			_likeService = likeService;
-			_categoryService = categoryService;
 		}
 
 		public BaseResponse<IEnumerable<BookOutputDto>> All(IDictionary<string, string> @params)
@@ -85,22 +83,23 @@ namespace Services.Implementations
 			return new BaseResponse<BookOutputDto>(HttpStatusCode.OK, data: Mapper.Map<BookOutputDto>(book));
 		}
 
-		public BaseResponse<IEnumerable<BookOutputDto>> CreateMany(IEnumerable<BookInputDto> booksInputDto)
+		public BaseResponse<IEnumerable<BookOutputDto>> CreateMany(Guid userId, IEnumerable<BookInputDto> booksInputDto)
 		{
-			var existedBooks = Where(b =>
-				booksInputDto.Any(dto => dto.Name.Equals(b.Name, StringComparison.InvariantCultureIgnoreCase)));
-			var nonExistedBooks = booksInputDto.Where(dto =>
-				existedBooks.All(book => !book.Name.Equals(dto.Name, StringComparison.InvariantCultureIgnoreCase)));
-			var createdBooks = CreateMany(nonExistedBooks.Select(Mapper.Map<Book>), out var isSaved);
+			var existedBooks = Where(b => booksInputDto.Any(dto => dto.Name.Equals(b.Name, StringComparison.InvariantCultureIgnoreCase)));
+			var nonExistedBooks = FilterNonExistedBooks(booksInputDto, existedBooks);
+			var createdBooks = CreateMany(SelectBookEntities(nonExistedBooks, userId), out var isSaved).ToList();
 			if (!isSaved)
 			{
 				throw new BadRequestException($"Không thể import books");
 			}
 
-			// TODO: import categories for created books
-			var categories = _categoryService.All();
-
-			// TODO: import authors for created books
+			// import categories for created books
+			var bookCategories = SelectBookCategories(createdBooks, nonExistedBooks);
+			_bookCategoryService.CreateMany(bookCategories, out isSaved);
+			if (!isSaved)
+			{
+				throw new BadRequestException($"Không thể import books");
+			}
 
 			return new SuccessResponse<IEnumerable<BookOutputDto>>(createdBooks.Select(Mapper.Map<BookOutputDto>));
 		}
@@ -140,6 +139,35 @@ namespace Services.Implementations
 			}
 
 			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
+		}
+
+		private static List<BookInputDto> FilterNonExistedBooks(IEnumerable<BookInputDto> booksInputDto, IQueryable<Book> existedBooks)
+		{
+			return booksInputDto
+				.Where(dto => existedBooks.All(book => !book.Name.Equals(dto.Name, StringComparison.InvariantCultureIgnoreCase)))
+				.ToList();
+		}
+
+		private IEnumerable<Book> SelectBookEntities(List<BookInputDto> nonExistedBooks, Guid userId)
+		{
+			return nonExistedBooks.Select(x =>
+			{
+				var b = Mapper.Map<Book>(x);
+				b.OwnerId = userId;
+				return b;
+			});
+		}
+
+		private IEnumerable<BookCategory> SelectBookCategories(List<Book> createdBooks, IEnumerable<BookInputDto> nonExistedBooks)
+		{
+			foreach (var nonExistedBook in nonExistedBooks)
+			{
+				var createdBook = createdBooks.First(b => b.Name.Equals(nonExistedBook.Name, StringComparison.InvariantCultureIgnoreCase));
+				foreach (var categoryId in nonExistedBook.CategoryIds)
+				{
+					yield return new BookCategory {BookId = createdBook.Id, CategoryId = Guid.Parse(categoryId)};
+				}
+			}
 		}
 
 		private IEnumerable<Book> Where(IDictionary<string, string> @params)
