@@ -1,7 +1,8 @@
-﻿using API.Filters;
+using API.Filters;
 using DAL.Constants;
 using DAL.Contexts;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ namespace API
 		{
 			services.AddSingleton((IConfigurationRoot)Configuration);
 			services.AddSingleton(Configuration);
+			services.AddCors();
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 			services.AddMvc(options =>
@@ -56,6 +58,7 @@ namespace API
 
 			services.AddAuthentication(JwtHelper.ConfigureAuthenticationOptions)
 				.AddJwtBearer(Jwt.DefaultScheme, JwtHelper.ConfigureJwtBearerOptions);
+
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -77,6 +80,7 @@ namespace API
 				c.RoutePrefix = string.Empty;
 			});
 
+			app.UseCors(ConfigureCors);
 			app.UseMvc();
 
 			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
@@ -87,7 +91,17 @@ namespace API
 				ContractResolver = new CamelCasePropertyNamesContractResolver()
 			};
 
+
 			DbInitializer.DbInitializer.Seed(app.ApplicationServices);
+		}
+
+		private void ConfigureCors(CorsPolicyBuilder builder)
+		{
+			builder
+				.AllowAnyOrigin()
+				.AllowAnyHeader()
+				.AllowAnyMethod()
+				.AllowCredentials();
 		}
 	}
 }
