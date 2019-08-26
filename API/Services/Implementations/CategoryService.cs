@@ -15,7 +15,7 @@ namespace Services.Implementations
 	{
 		public BaseResponse<IEnumerable<CategoryOutputDto>> All(IDictionary<string, string> @params)
 		{
-			var categories = All().AsEnumerable().Select(Mapper.Map<CategoryOutputDto>);
+			var categories = Include(x => x.BookCategories).AsEnumerable().Select(Mapper.Map<CategoryOutputDto>);
 
 			return new BaseResponse<IEnumerable<CategoryOutputDto>>(HttpStatusCode.OK, data: categories);
 		}

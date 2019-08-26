@@ -38,7 +38,10 @@ namespace API
 
 			configuration.CreateMap<CategoryInputDto, Category>();
 
-			configuration.CreateMap<Category, CategoryOutputDto>();
+			configuration.CreateMap<Category, CategoryOutputDto>().ForMember(
+				destination => destination.BookCount,
+				map => map.MapFrom(source => source.BookCategories.Count)
+			);
 
 			#endregion
 

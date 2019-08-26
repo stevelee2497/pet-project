@@ -19,7 +19,6 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
-		[Authorize]
 		[Produces("application/json")]
 		public BaseResponse<IEnumerable<CategoryOutputDto>> All([FromHeader] IDictionary<string, string> @params)
 		{
