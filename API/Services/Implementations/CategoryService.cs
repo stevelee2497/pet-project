@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using AutoMapper;
 using DAL.Exceptions;
+using DAL.Extensions;
 using DAL.Models;
 using Services.Abstractions;
 using Services.DTOs.Input;
@@ -15,14 +16,17 @@ namespace Services.Implementations
 	{
 		public BaseResponse<IEnumerable<CategoryOutputDto>> All(IDictionary<string, string> @params)
 		{
-			var categories = Include(x => x.BookCategories).AsEnumerable().Select(Mapper.Map<CategoryOutputDto>);
+			var categories = Include(x => x.BookCategories)
+				.Where(x => x.IsActivated())
+				.AsEnumerable()
+				.Select(Mapper.Map<CategoryOutputDto>);
 
 			return new BaseResponse<IEnumerable<CategoryOutputDto>>(HttpStatusCode.OK, data: categories);
 		}
 
 		public BaseResponse<bool> CreateCategory(CategoryInputDto categoryInputDto)
 		{
-			if (Contains(x => x.Name.Equals(categoryInputDto.Name, StringComparison.InvariantCultureIgnoreCase)))
+			if (Contains(x => x.IsActivated() && x.Name.Equals(categoryInputDto.Name, StringComparison.InvariantCultureIgnoreCase)))
 			{
 				throw new BadRequestException($"Thể loại {categoryInputDto.Name} đã tồn tại");
 			}
@@ -39,7 +43,7 @@ namespace Services.Implementations
 
 		public BaseResponse<int> CreateManyCategories(string[] categories)
 		{
-			var existedCategories = All().Select(c => c.Name);
+			var existedCategories = Where(x => x.IsActivated()).Select(c => c.Name);
 			var nonExistedCategories = categories.Where(c => !existedCategories.Contains(c)).ToList();
 
 			CreateMany(nonExistedCategories.Select(c => new Category {Name = c}), out var isSaved);
@@ -69,7 +73,7 @@ namespace Services.Implementations
 			return new BaseResponse<bool>(HttpStatusCode.OK, data: true);
 		}
 
-		public BaseResponse<bool> DeleteCategory(Guid id, CategoryInputDto categoryInputDto)
+		public BaseResponse<bool> DeleteCategory(Guid id)
 		{
 			var category = Find(id);
 			if (category == null)

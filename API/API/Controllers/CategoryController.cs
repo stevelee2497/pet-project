@@ -19,6 +19,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
+		[Authorize]
 		[Produces("application/json")]
 		public BaseResponse<IEnumerable<CategoryOutputDto>> All([FromHeader] IDictionary<string, string> @params)
 		{
@@ -52,9 +53,9 @@ namespace API.Controllers
 		[HttpDelete("{id}")]
 		[Authorize]
 		[Produces("application/json")]
-		public BaseResponse<bool> DeleteCategory(Guid id, [FromBody] CategoryInputDto categoryInputDto)
+		public BaseResponse<bool> DeleteCategory(Guid id)
 		{
-			return _categoryService.DeleteCategory(id, categoryInputDto);
+			return _categoryService.DeleteCategory(id);
 		}
 	}
 }
